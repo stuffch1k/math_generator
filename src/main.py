@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 import uvicorn 
 from models.model import *
-from typing import List
+from database import database
+from api import router
 
-
-app = FastAPI(
-)
+app = FastAPI()
+app.include_router(router)
 
 app.state.database = database
 
@@ -25,18 +25,6 @@ async def shutdown() -> None:
 @app.get("/")
 def main():
     return "Main"
-
-@app.post("/task/", response_model=Task)
-async def create_item(topic: Topic):
-    await topic.save()
-    task = Task (topic = topic, task = "task", answer = "answer")
-    await task.save()
-    return task
-
-@app.get("/tasks/", response_model=List[Task])
-async def get_items():
-    tasks = await Task.objects.all()
-    return tasks
 
 if __name__=="__main__":
     uvicorn.run("main:app", host='127.0.0.1', port=8080, reload = True)

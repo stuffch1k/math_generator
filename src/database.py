@@ -1,7 +1,8 @@
-
+import databases
+import sqlalchemy
+import ormar
 from typing import AsyncGenerator
 
-from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -16,6 +17,12 @@ Base = declarative_base()
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
+metadata = sqlalchemy.MetaData()
+database = databases.Database(DATABASE_URL)
+
+class MainMeta(ormar.ModelMeta):
+    metadata = metadata
+    database = database
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
