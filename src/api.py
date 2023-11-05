@@ -6,7 +6,6 @@ import generators
 
 router = APIRouter()
 
-
 @router.post("/task/", response_model=Task)
 async def create_item(topic: Topic):
     await topic.save()
@@ -21,6 +20,6 @@ async def get_items():
 
 @router.post("/task")
 async def post_task(topic: TopicScheme):
-    problem = generators.GenerateTask(topic)
+    problem = generators.GenerateMatrixTask(topic)
     #task = Task(Topic(name='topic'), problem='problem')
     return problem
