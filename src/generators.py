@@ -84,6 +84,74 @@ def GenerateMatrixMultiplicationTask():
   return dic
 
 
+def GenerateFindDeterminantTask():
+  matrix = generateNonsingularMatrix(-9, 10, 3, 3)
+  answer = np.around(np.linalg.det(matrix))
+  task = "" #Сделать запрос к базе
+
+  dic = {
+    "task":task,
+    "data": matrix.tolist(),
+    "answer": answer}
+  return dic
+
+
+def GenerateDeterminantEquasionTask():
+  matrix = generateNonsingularMatrix(-9, 10, 3, 3)
+  determinant = np.around(np.linalg.det(matrix))
+
+  row_count = matrix.shape[0]
+  columns_count = matrix.shape[1]
+
+  row_index = np.random.randint(0,row_count, size=(1,1))[0][0]
+  column_index = np.random.randint(0,columns_count, size=(1,1))[0][0]
+  random_elem = matrix[row_index][column_index]
+
+  new_matrix = np.where(matrix == random_elem, "x", matrix)
+  task = "" #Сделать запрос к бд
+
+  dic = {
+    "task":task,
+    "data": {"matrix": new_matrix.tolist(), "determinant": determinant},
+    "answer": random_elem}
+  return dic
+
+
+def GenerateFindReverseMatrixTask():
+  matrix = generateNonsingularMatrix(-9, 10, 3, 3)
+  ansver = np.around(np.linalg.inv(matrix), 3)
+  task = "" #Запрос к бд
+
+  dic = {
+    "task":task,
+    "data": matrix.tolist(),
+    "answer": ansver.tolist()}
+  return dic  
+
+
+def GenerateFindReversedMatrixElementTask():
+  matrix = generateNonsingularMatrix(-9, 10, 3, 3)
+  reversed_matrix = np.around(np.linalg.inv(matrix), 3)
+
+  row_count = matrix.shape[0]
+  columns_count = matrix.shape[1]  
+
+  row_index = np.random.randint(0,row_count, size=(1,1))[0][0]
+  column_index = np.random.randint(0,columns_count, size=(1,1))[0][0]
+  random_elem = reversed_matrix[row_index][column_index]
+  task = "" #Запрос к бд
+
+  dic = {
+    "task":task,
+    "data": {"matrix": matrix.tolist(), "rowIndex": row_index, "columnIndex": column_index},
+    "answer": random_elem}
+  return dic
+
+
+def GenerateFindMatrixRankTask():
+   
+
+
 def generateSLU(x_count, equation_count, min_value, max_value):
   a = np.random.randint(min_value, max_value, size=(equation_count, x_count))
   while (np.linalg.det(a) == 0):
@@ -102,7 +170,7 @@ def generateSLU(x_count, equation_count, min_value, max_value):
   return (a,b,x)
 
 
-def generateNonsingularMatrix(rows_count, columns_count, min_value, max_value):
+def generateNonsingularMatrix(min_value, max_value, rows_count, columns_count):
   a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
   while (np.linalg.det(a) == 0):
     a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
@@ -116,10 +184,32 @@ def GenerateMatrixTask(topic: TopicScheme):
     elif topic.title == 1:
         return GenerateMatrixElementTask()
     elif topic.title == 2:
-        return Exception()
-    elif topic.title == 3:
        return GenerateMatrixSummTask()
-    elif topic.title == 4:
+    elif topic.title == 3:
        return GenerateMatrixNumberMultiplicationTask()
-    elif topic.title == 6:
+    elif topic.title == 4:
        return GenerateMatrixTransposeTask()
+    elif topic.title == 5:
+       return GenerateMatrixMultiplicationTask()
+
+
+def GenerateDeterminantTask(topic: TopicScheme):
+  match topic.title:
+    case 0:
+        return GenerateFindDeterminantTask()
+    case 1:
+        return GenerateDeterminantEquasionTask()
+     
+
+def GenerateReverseMatrixTask(topic: TopicScheme):
+  match topic.title:
+     case 0:
+        return GenerateFindReverseMatrixTask()
+     case 1:
+        return GenerateFindReversedMatrixElementTask()
+     
+def GenerateMatrixRankTask(topic: TopicScheme):
+  match topic.title:
+    case 0:
+        return GenerateFindMatrixRankTask()
+      
