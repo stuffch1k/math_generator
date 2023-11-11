@@ -149,8 +149,34 @@ def GenerateFindReversedMatrixElementTask():
 
 
 def GenerateFindMatrixRankTask():
-   
+  switch = np.random.randint(0, 2, size=(1,1))[0][0]
+  task = "" # Сделать запрос к бд
 
+  if switch == 0:
+    matrix = np.random.randint(-9, 10, size=(3,3))
+    answer = np.linalg.matrix_rank(matrix)
+      
+  else:
+    matrix = np.random.randint(-9, 10, size=(2,3))
+    factor1, factor2 = 0, 0
+    while factor1 == 0 or factor2 == 0:
+        factor1 = np.random.randint(-3, 4, size=(1,1))[0][0]
+        factor2 = np.random.randint(-3, 4, size=(1,1))[0][0]
+
+    matrix = np.vstack([matrix, factor1 * matrix[0] + factor2*matrix[1]])
+    np.random.shuffle(matrix)
+    answer = np.linalg.matrix_rank(matrix)
+  
+  dic = {
+  "task":task,
+  "data": matrix.tolist(),
+  "answer": answer}
+  return dic
+
+
+def GenerateSolveMatrixEquasionTask():
+  return
+    
 
 def generateSLU(x_count, equation_count, min_value, max_value):
   a = np.random.randint(min_value, max_value, size=(equation_count, x_count))
@@ -208,8 +234,17 @@ def GenerateReverseMatrixTask(topic: TopicScheme):
      case 1:
         return GenerateFindReversedMatrixElementTask()
      
+
 def GenerateMatrixRankTask(topic: TopicScheme):
   match topic.title:
     case 0:
-        return GenerateFindMatrixRankTask()
+      return GenerateFindMatrixRankTask()
+    
+     
+def GenerateMatrixEquasionTask(topic: TopicScheme):
+  match topic.title:
+    case 0:
+      return GenerateSolveMatrixEquasionTask()
+    
+
       
