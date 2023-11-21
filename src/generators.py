@@ -1,11 +1,18 @@
 from schemas import *
 import numpy as np
 import sympy as sp
+from models.model import *
 
-def GeterateMatrixSizeTask():
+async def create_db_task(topic_schema, task):
+  topic_db = await Topic.objects.get(name = topic_schema.title)
+  await Task.objects.create(topic=topic_db.id, 
+                            complexity = topic_schema.complexity, 
+                            text = str(task["data"]), answer = str(task["answer"])) 
+
+def GenerateMatrixSizeTask():
   matrix = np.random.randint(10, size=(4, 4))
   answer = matrix.shape
-  task = ""  #добавить запрос к бд
+  task = "Определите размер матрицы"  #добавить запрос к бд
   dic = {
      "task": task,
      "data": matrix.tolist(),
@@ -21,15 +28,14 @@ def GenerateMatrixElementTask():
   row_index = np.random.randint(0,row_count, size=(1,1))[0][0]
   column_index = np.random.randint(0,columns_count, size=(1,1))[0][0]
   answer = matrix[row_index][column_index]
-  task = '' #сделать запрос к бд
-
+  task = f'Чему равен элемент матрицы А{row_index, column_index}?' #сделать запрос к бд
   dic = {
     "task": task,
     "data": {
        "matrix":matrix.tolist(),
-       "row_index":row_index,
-       "column_index":column_index},
-    "answer": answer}
+       "row_index":row_index.item(),
+       "column_index":column_index.item()},
+    "answer": answer.item()}
   return dic
 
 
@@ -37,19 +43,19 @@ def GenerateMatrixSummTask():
   first_matrix = np.random.randint(10, size=(3, 3))
   second_matrix = np.random.randint(10, size=(3, 3))
   answer = first_matrix + second_matrix
-  task = "" #сделать запрос к бд
+  task = "Чему равна сумма матриц?" #сделать запрос к бд
 
   dic = {
      "task": task,
      "data": {"first" : first_matrix.tolist(), "second" : second_matrix.tolist()},
-     "answer": answer}
+     "answer": answer.tolist()}
   return dic
 
 
 def GenerateMatrixTransposeTask():
   matrix = np.random.randint(10, size=(3,3))
   answer = matrix.transpose()
-  task = "" #сделать запрос к бд
+  task = "Найдите транспонированную матрицу" #сделать запрос к бд
 
   dic = {
      "task":task,
@@ -62,11 +68,11 @@ def GenerateMatrixNumberMultiplicationTask():
   matrix = np.random.randint(-9, 10, size=(3,3))
   number = np.random.randint(1, 10, size=(1,1))[0][0]
   answer = matrix * number
-  task = "" #сделать запрос к бд
+  task = f"Каков результат умножения числа {number} на матрицу A?" #сделать запрос к бд
 
   dic = {
     "task":task,
-    "data": {"matrix":matrix.tolist(), "number":number},
+    "data": {"matrix":matrix.tolist(), "number":int(number)},
     "answer": answer.tolist()}
   return dic
 
@@ -75,7 +81,7 @@ def GenerateMatrixMultiplicationTask():
   matrix1 = np.random.randint(-9, 10, size=(3,3))
   matrix2 = np.random.randint(-9, 10, size=(3,3))
   answer = np.dot(matrix1, matrix2)
-  task = "" #сделать запрос к бд
+  task = "Каков результат умножения матриц?" #сделать запрос к бд
 
   dic = {
     "task":task,
@@ -87,7 +93,7 @@ def GenerateMatrixMultiplicationTask():
 def GenerateFindDeterminantTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   answer = np.around(np.linalg.det(matrix))
-  task = "" #Сделать запрос к базе
+  task = "Вычислите определитель матрицы А (при необходимости округлите до целого числа)" #Сделать запрос к базе
 
   dic = {
     "task":task,
@@ -96,7 +102,7 @@ def GenerateFindDeterminantTask():
   return dic
 
 
-def GenerateDeterminantEquasionTask():
+def GenerateDeterminantEquationTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   determinant = np.around(np.linalg.det(matrix))
 
@@ -108,24 +114,24 @@ def GenerateDeterminantEquasionTask():
   random_elem = matrix[row_index][column_index]
 
   new_matrix = np.where(matrix == random_elem, "x", matrix)
-  task = "" #Сделать запрос к бд
+  task = "Решите уравнение используя определитель (дробные числа округлять до целых)" #Сделать запрос к бд
 
   dic = {
     "task":task,
     "data": {"matrix": new_matrix.tolist(), "determinant": determinant},
-    "answer": random_elem}
+    "answer": int(random_elem)}
   return dic
 
 
 def GenerateFindReverseMatrixTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
-  ansver = np.around(np.linalg.inv(matrix), 3)
-  task = "" #Запрос к бд
+  answer = np.around(np.linalg.inv(matrix), 3)
+  task = "Найдите обратную матрицу (округлить до 3х знаков после запятой)" #Запрос к бд
 
   dic = {
     "task":task,
     "data": matrix.tolist(),
-    "answer": ansver.tolist()}
+    "answer": answer.tolist()}
   return dic  
 
 
@@ -139,18 +145,18 @@ def GenerateFindReversedMatrixElementTask():
   row_index = np.random.randint(0,row_count, size=(1,1))[0][0]
   column_index = np.random.randint(0,columns_count, size=(1,1))[0][0]
   random_elem = reversed_matrix[row_index][column_index]
-  task = "" #Запрос к бд
+  task = f'Матрица В обратна к исходной матрице. Чему равен элемент матрицы В{row_index, column_index}? Ответ округлите до 3х знаков после запятой.' #Запрос к бд
 
   dic = {
     "task":task,
-    "data": {"matrix": matrix.tolist(), "rowIndex": row_index, "columnIndex": column_index},
-    "answer": random_elem}
+    "data": {"matrix": matrix.tolist(), "rowIndex": int(row_index), "columnIndex": int(column_index)},
+    "answer": random_elem.item()}
   return dic
 
 
 def GenerateFindMatrixRankTask():
   switch = np.random.randint(0, 2, size=(1,1))[0][0]
-  task = "" # Сделать запрос к бд
+  task = "Определите ранг матрицы" # Сделать запрос к бд
 
   if switch == 0:
     matrix = np.random.randint(-9, 10, size=(3,3))
@@ -170,13 +176,13 @@ def GenerateFindMatrixRankTask():
   dic = {
   "task":task,
   "data": matrix.tolist(),
-  "answer": answer}
+  "answer": answer.item()}
   return dic
 
 
 def GenerateSolveMatrixEquasionTask():
   return
-    
+
 
 def generateSLU(x_count, equation_count, min_value, max_value):
   a = np.random.randint(min_value, max_value, size=(equation_count, x_count))
@@ -204,47 +210,84 @@ def generateNonsingularMatrix(min_value, max_value, rows_count, columns_count):
   return a
 
 
-def GenerateMatrixTask(topic: TopicScheme):
-    if topic.title == 0:
-        return GeterateMatrixSizeTask()
-    elif topic.title == 1:
-        return GenerateMatrixElementTask()
-    elif topic.title == 2:
-       return GenerateMatrixSummTask()
-    elif topic.title == 3:
-       return GenerateMatrixNumberMultiplicationTask()
-    elif topic.title == 4:
-       return GenerateMatrixTransposeTask()
-    elif topic.title == 5:
-       return GenerateMatrixMultiplicationTask()
+'''
+Генерация задач Матрицы
+'''
+async def GenerateMatrixTask(topic: TopicForGenerator):
+    if topic.complexity == 0:
+      task = GenerateMatrixSizeTask()
+      await create_db_task(topic, task)
+      return task
+    elif topic.complexity == 1:
+      task = GenerateMatrixElementTask()
+      await create_db_task(topic, task)
+      return task
+    elif topic.complexity == 2:
+      task = GenerateMatrixSummTask()
+      await create_db_task(topic, task)
+      return task
+    elif topic.complexity == 3:
+      task = GenerateMatrixNumberMultiplicationTask()
+      await create_db_task(topic, task)
+      return task
+    elif topic.complexity == 4:
+      task = GenerateMatrixTransposeTask()
+      await create_db_task(topic, task)
+      return task
+    elif topic.complexity == 5:
+      task = GenerateMatrixMultiplicationTask()
+      await create_db_task(topic, task)
+      return task
 
-
-def GenerateDeterminantTask(topic: TopicScheme):
-  match topic.title:
+'''
+Генерация задач Определители
+'''
+async def GenerateDeterminantTask(topic: TopicForGenerator):
+  match topic.complexity:
     case 0:
-        return GenerateFindDeterminantTask()
+        task = GenerateFindDeterminantTask()
+        await create_db_task(topic, task)
+        return task
     case 1:
-        return GenerateDeterminantEquasionTask()
+        task = GenerateDeterminantEquationTask()
+        await create_db_task(topic, task)
+        return task
      
 
-def GenerateReverseMatrixTask(topic: TopicScheme):
-  match topic.title:
+'''
+Генерация задач Обратная матрица
+'''
+async def GenerateReverseMatrixTask(topic: TopicForGenerator):
+  match topic.complexity:
      case 0:
-        return GenerateFindReverseMatrixTask()
+        task = GenerateFindReverseMatrixTask()
+        await create_db_task(topic, task)
+        return task
      case 1:
-        return GenerateFindReversedMatrixElementTask()
+        task = GenerateFindReversedMatrixElementTask()
+        await create_db_task(topic, task)
+        return task
      
 
-def GenerateMatrixRankTask(topic: TopicScheme):
-  match topic.title:
+'''
+Генерация задач Ранг
+'''
+async def GenerateMatrixRankTask(topic: TopicForGenerator):
+  match topic.complexity:
     case 0:
-      return GenerateFindMatrixRankTask()
-    
-     
-def GenerateMatrixEquasionTask(topic: TopicScheme):
-  match topic.title:
-    case 0:
-      return GenerateSolveMatrixEquasionTask()
+      task = GenerateFindMatrixRankTask()
+      await create_db_task(topic, task)
+      return task
     
 
-      
+'''
+Генерация задач Матричные уравнения
+'''
+async def GenerateMatrixEquasionTask(topic: TopicForGenerator):
+  match topic.title:
+    case 0:
+      task = GenerateSolveMatrixEquasionTask()
+      await create_db_task(topic, task)
+      return task
+
+

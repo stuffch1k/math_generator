@@ -1,18 +1,13 @@
 from pydantic import BaseModel
-from enum import Enum
+from models.topics import *
 
-class Subtitle(Enum):
-    matrix = 0
-    find_determinant = 1
-    Gauss_method = 2
-
-class TopicScheme(BaseModel):
-    title : Subtitle
-
+class TopicWithCompexity(BaseModel):
+    title: First_Topic
+    complexity: int
+    count: int = 1
     class Config:  
         use_enum_values = True
 
-class TaskScheme(BaseModel):
-    description: str
-    task: str
-
+class TopicForGenerator(BaseModel):
+    title: First_Topic
+    complexity: int 

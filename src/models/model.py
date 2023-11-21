@@ -5,10 +5,8 @@ import ormar
 import sys
 import os
 sys.path.append(os.path.join(sys.path[0], 'src'))
-from database import DATABASE_URL
+from database import database, metadata
 
-metadata = sqlalchemy.MetaData()
-database = databases.Database(DATABASE_URL)
 
 class Topic(ormar.Model):
     class Meta:
