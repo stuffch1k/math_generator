@@ -21,6 +21,11 @@ async def get_items():
     tasks = await Task.objects.all()
     return tasks
 
+@router.get("/topic_task", response_model=List[Task])
+async def get_topic_tasks(topic_id:int):
+    tasks = await Task.objects.filter(topic=topic_id).all()
+    return tasks
+
 @router.post("/task")
 async def create_tasks(tasks: List[TopicWithCompexity]):
     problem = []
@@ -44,9 +49,18 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                 problem.append(await GenerateMatrixRankTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+        if task.title == "Матричные уравнения":
+            for _ in range(task.count):
+                problem.append(await GenerateMatrixEquationTask(
+                    TopicForGenerator(title=task.title, complexity=task.complexity)
+                ))
+        if task.title == "Системы линейных уравнений":
+            for _ in range(task.count):
+                problem.append(await GenerateLinearEquationTask(
+                    TopicForGenerator(title=task.title, complexity=task.complexity)
+                ))
     return problem
 
-# @router.get("/test_xml")
-# async def get_xml():
-#     f = open("src/Test.xml", "r")
-#     return f.read()
+@router.get("/convert_xml")
+async def get_xml():
+    pass

@@ -180,8 +180,47 @@ def GenerateFindMatrixRankTask():
   return dic
 
 
-def GenerateSolveMatrixEquasionTask():
-  return
+def GenerateSolveMatrixEquationTask():
+  a = generateNonsingularMatrix(-9, 10, 3, 3)
+  b = generateNonsingularMatrix(-9, 10, 3, 3)
+  a1 = np.linalg.inv(a)
+  answer = np.around(np.dot(a1, b), 3)
+  task = "Решите уравнение вида A*X = B. Ответ округлите до 3х знаков после запятой"
+  dic = {
+  "task":task,
+  "data": {"A": a.tolist(), "B": b.tolist()},
+  "answer": answer.tolist()}
+  return dic
+
+def GenerateSolveDoubleMatrixEquationTask():
+  task = "Решите уравнение вида A·X·B = C. Ответ округлите до 3х знаков после запятой"
+  a = generateNonsingularMatrix(-9, 10, 3, 3)
+  b = generateNonsingularMatrix(-9, 10, 3, 3)
+  c = generateNonsingularMatrix(-9, 10, 3, 3)
+  a1 = np.linalg.inv(a)
+  b1 = np.linalg.inv(b)
+  x = np.dot(a1,c)
+  answer = np.around(np.dot(x, b1), 3)
+  dic = {
+  "task":task,
+  "data": {"A": a.tolist(), "B": b.tolist(), "C": c.tolist()},
+  "answer": answer.tolist()}
+  return dic
+
+
+def GenerateSolveLinearEquationTask():
+  a, b, x = generateSLU(3, 3, -5, 20)
+  first_equation = f"{a[0][0]}*x + {a[0][1]}*y + {a[0][2]}*z = {b[0].item()}"
+  second_equation = f"{a[1][0]}*x + {a[1][1]}*y + {a[1][2]}*z = {b[1].item()}"
+  third_equation = f"{a[2][0]}*x + {a[2][1]}*y + {a[2][2]}*z = {b[2].item()}"
+  task = "Решите систему линейных уравнений. Ответ округлите до 3х знаков после запятой"  
+  answer = np.around(x,3).tolist()
+  dic = {
+  "task":task,
+  "data": {"first_equation": first_equation, "second_equation": second_equation, "third_equation" : third_equation},
+  "answer": answer}
+  return dic
+
 
 
 def generateSLU(x_count, equation_count, min_value, max_value):
@@ -283,11 +322,24 @@ async def GenerateMatrixRankTask(topic: TopicForGenerator):
 '''
 Генерация задач Матричные уравнения
 '''
-async def GenerateMatrixEquasionTask(topic: TopicForGenerator):
-  match topic.title:
+async def GenerateMatrixEquationTask(topic: TopicForGenerator):
+  match topic.complexity:
     case 0:
-      task = GenerateSolveMatrixEquasionTask()
+      task = GenerateSolveMatrixEquationTask()
+      await create_db_task(topic, task)
+      return task
+    case 1:
+      task = GenerateSolveDoubleMatrixEquationTask()
       await create_db_task(topic, task)
       return task
 
+'''
+Генерация задач Системы линейных уравнений
+'''
+async def GenerateLinearEquationTask(topic: TopicForGenerator):
+  match topic.complexity:
+    case 0:
+      task = GenerateSolveLinearEquationTask()
+      await create_db_task(topic, task)
+      return task
 
