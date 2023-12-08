@@ -1,0 +1,16 @@
+<!-- question: 3068663  -->
+  <question type="cloze">
+    <name>
+      <text>Расстояние</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">Измерить <br></p><p dir="ltr" style="text-align: left;">От Екб до Мск {1:NUMERICAL:=1.5:0.4#OK} тыс.км<br></p><p dir="ltr" style="text-align: left;">От Мск до Спб {1:NUMERICAL:=0.1:0.2#OK} тыс.км<br></p><p dir="ltr" style="text-align: left;"><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+  </question>
+
