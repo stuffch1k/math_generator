@@ -238,12 +238,20 @@ def GenerateSolveLinearEquationTask():
 
 def GenerateScalarVectorMultiplicationTask():
   a = np.random.randint(-20, 21, size=(1,3))
-  b = np.random.randint(-20, 21, size=(1,3))
+  b = np.random.randint(-20, 21, size=(3,1))
   task = "Вычислите скалярное произведение векторов A и B."
-  answer = a * b
+  answer = a @ b
+  
+  moodle_task = \
+  "<p>Вычислите скалярное произведение векторов \\( \\vec{a} \\) и \\( \\vec{b} \\)</p>" + \
+  "<p> \\( \\vec{a}=" + f'({a[0][0]}, {a[0][1]}, {a[0][2]})' + " \\) </p>" + \
+  "<p> \\( \\vec{b}=" + f'({b[0][0]}, {b[1][0]}, {b[2][0]})' + " \\) </p>" + \
+  "<p> Ответ: {1:NUMERICAL:=" + f'{answer[0][0]}' + ":0.1#OK} </p>"
+  
   dic = {
     "task": task,
-    "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
+    "moodle_task": moodle_task,
+    "data": {"A": a.tolist()[0], "B": b.T.tolist()[0]},
     "answer": answer.tolist()[0]}
   return dic
 
