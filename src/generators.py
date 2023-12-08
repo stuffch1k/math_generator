@@ -2,6 +2,7 @@ from schemas import *
 import numpy as np
 import sympy as sp
 from models.model import *
+from math import *
 
 async def create_db_task(topic_schema, task):
   topic_db = await Topic.objects.get(name = topic_schema.title)
@@ -114,7 +115,7 @@ def GenerateDeterminantEquationTask():
   random_elem = matrix[row_index][column_index]
 
   new_matrix = np.where(matrix == random_elem, "x", matrix)
-  task = "Решите уравнение используя определитель (дробные числа округлять до целых)" #Сделать запрос к бд
+  task = "Какое значение должно стоять на месте x, чтобы соблюдалось равенство?" #Сделать запрос к бд
 
   dic = {
     "task":task,
@@ -192,6 +193,7 @@ def GenerateSolveMatrixEquationTask():
   "answer": answer.tolist()}
   return dic
 
+
 def GenerateSolveDoubleMatrixEquationTask():
   task = "Решите уравнение вида A·X·B = C. Ответ округлите до 3х знаков после запятой"
   a = generateNonsingularMatrix(-9, 10, 3, 3)
@@ -221,6 +223,65 @@ def GenerateSolveLinearEquationTask():
   "answer": answer}
   return dic
 
+
+def GenerateScalarVectorMultiplicationTask():
+  a = np.random.randint(-20, 21, size=(1,3))
+  b = np.random.randint(-20, 21, size=(1,3))
+  task = "Вычислите скалярное произведение векторов A и B."
+  answer = a * b
+  dic = {
+    "task": task,
+    "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
+    "answer": answer.tolist()[0]}
+  return dic
+
+
+def GenerateVectorVectorMultiplicationTask():
+  a = np.random.randint(-20, 21, size=(1,3))
+  b = np.random.randint(-20, 21, size=(1,3))
+
+  combined = np.vstack([a, b])
+  xy = combined[:2, :2]
+  yz = combined[:2, 1:3]
+  xz = combined[:2, [0, 2]]
+  answer = np.array([int(np.linalg.det(yz)), -1 * int(np.linalg.det(xz)), int(np.linalg.det(xy))])
+  task = "Вычислите векторное произведение векторов А и В."
+  dic = {
+    "task": task,
+    "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
+    "answer": answer.tolist()}
+  return dic
+
+
+def GenerateVectorVectorMultiplicationModuleTask():
+  temp = GenerateVectorVectorMultiplicationTask()
+  a = temp["data"]["A"]
+  b = temp["data"]["B"]
+  vector = np.array(temp["answer"])
+  answer = np.around(sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2 ), 3)
+  task = "Вычислите длинну вектора, полученную в результате векторного произведения A и B"
+  dic = {
+    "task": task,
+    "data": {"A": a.tolist(), "B": b.tolist()},
+    "answer": answer.tolist()}
+  return dic
+
+
+def GenerateMixedVectorMultiplicationTask():
+  a = np.random.randint(-20, 21, size=(1,3))
+  b = np.random.randint(-20, 21, size=(1,3))
+  c = np.random.randint(-20, 21, size=(1,3))
+
+  combined = np.vstack([a, b, c])
+  answer = np.around(np.linalg.det(combined))
+  task = "Вычислите смешанное произведение векторов A, B и C"
+  dic = {
+    "task": task,
+    "data": {"A": a.tolist()[0], "B": b.tolist()[0], "C": c.tolist()[0]},
+    "answer": answer}
+  return dic
+
+  
 
 
 def generateSLU(x_count, equation_count, min_value, max_value):
@@ -278,6 +339,7 @@ async def GenerateMatrixTask(topic: TopicForGenerator):
       await create_db_task(topic, task)
       return task
 
+
 '''
 Генерация задач Определители
 '''
@@ -333,6 +395,7 @@ async def GenerateMatrixEquationTask(topic: TopicForGenerator):
       await create_db_task(topic, task)
       return task
 
+
 '''
 Генерация задач Системы линейных уравнений
 '''
@@ -343,3 +406,25 @@ async def GenerateLinearEquationTask(topic: TopicForGenerator):
       await create_db_task(topic, task)
       return task
 
+
+'''
+Генерация задач на действия с векторами
+'''
+async def GenerateVectorTask(topic: TopicForGenerator):
+  match topic.complexity:
+    case 0:
+      task = GenerateScalarVectorMultiplicationTask()
+      await create_db_task(topic, task)
+      return task
+    case 1:
+      task = GenerateVectorVectorMultiplicationTask()
+      await create_db_task(topic, task)
+      return task
+    case 2:
+      task = GenerateVectorVectorMultiplicationModuleTask()
+      await create_db_task(topic, task)
+      return task
+    case 3:
+      task = GenerateMixedVectorMultiplicationTask()
+      await create_db_task(topic, task)
+      return task
