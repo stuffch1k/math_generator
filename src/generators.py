@@ -1,7 +1,7 @@
 from schemas import *
 import numpy as np
 import sympy as sp
-from models.model import *
+#from models.model import *
 from math import *
 
 async def create_db_task(topic_schema, task):
@@ -215,10 +215,22 @@ def GenerateSolveLinearEquationTask():
   first_equation = f"{a[0][0]}*x + {a[0][1]}*y + {a[0][2]}*z = {b[0].item()}"
   second_equation = f"{a[1][0]}*x + {a[1][1]}*y + {a[1][2]}*z = {b[1].item()}"
   third_equation = f"{a[2][0]}*x + {a[2][1]}*y + {a[2][2]}*z = {b[2].item()}"
-  task = "Решите систему линейных уравнений. Ответ округлите до 3х знаков после запятой"  
-  answer = np.around(x,3).tolist()
+  task = "Решите систему линейных уравнений. Ответ округлите до 1го знака после запятой"  
+  answer = np.around(x,1).tolist()
+  
+  moodle_task = f"<p>{task}</p>" + \
+  "<p> \\( \\begin{cases}" + \
+  f"{a[0][0]}x + {a[0][1]}y + {a[0][2]}z = {b[0].item()} \\\\" + \
+  f"{a[1][0]}x + {a[1][1]}y + {a[1][2]}z = {b[1].item()}\\\\" + \
+  f"{a[2][0]}x + {a[2][1]}y + {a[2][2]}z = {b[2].item()}" + \
+  "\end{cases} \) </p>" + \
+  "<p> x={1:NUMERICAL:=" + f'{answer[0][0]}' + ":0.1#OK} </p>" + \
+  "<p> y={1:NUMERICAL:=" + f'{answer[1][0]}' + ":0.1#OK} </p>" + \
+  "<p> z={1:NUMERICAL:=" + f'{answer[2][0]}' + ":0.1#OK} </p>"
+  
   dic = {
   "task":task,
+  "moodle_task": moodle_task,
   "data": {"first_equation": first_equation, "second_equation": second_equation, "third_equation" : third_equation},
   "answer": answer}
   return dic
