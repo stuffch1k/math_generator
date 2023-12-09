@@ -13,13 +13,13 @@
   </question>
 
 
-<!-- question: 5941732 -->
+<!-- question: 5585753 -->
   <question type="cloze">
     <name>
-      <text>Решение СЛУ: метод Крамеравариант 1</text>
+      <text>Решение СЛУ: метод Крамера - вариант 1</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[ &lt;p&gt;Решите систему линейных уравнений. Ответ округлите до 1го знака после запятой&lt;/p&gt;&lt;p&gt; \( \begin{cases}3x + 17y + 8z = 15 \\-3x + 2y + 10z = 4\\0x + 14y + 15z = 14\end{cases} \) &lt;/p&gt;&lt;p&gt; x={1:NUMERICAL:=-0.7:0.1#OK} &lt;/p&gt;&lt;p&gt; y={1:NUMERICAL:=1.0:0.1#OK} &lt;/p&gt;&lt;p&gt; z={1:NUMERICAL:=0.0:0.1#OK} &lt;/p&gt; ]]></text>
+      <text><![CDATA[ <p>Решите систему линейных уравнений. Ответ округлите до 1го знака после запятой</p><p> \( \begin{cases}10x + 13y + 11z = 13 \\-5x + 6y + 10z = 17\\-3x + 16y + -2z = 16\end{cases} \) </p><p> x={1:NUMERICAL:=-0.8:0.1#OK} </p><p> y={1:NUMERICAL:=1.0:0.1#OK} </p><p> z={1:NUMERICAL:=0.7:0.1#OK} </p> ]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -29,13 +29,13 @@
     <idnumber></idnumber>
   </question>
 
-<!-- question: 9245857 -->
+<!-- question: 6609205 -->
   <question type="cloze">
     <name>
-      <text>Решение СЛУ: метод Крамеравариант 2</text>
+      <text>Решение СЛУ: метод Крамера - вариант 2</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[ &lt;p&gt;Решите систему линейных уравнений. Ответ округлите до 1го знака после запятой&lt;/p&gt;&lt;p&gt; \( \begin{cases}3x + 4y + 11z = 11 \\15x + 6y + 16z = 18\\-1x + 13y + 19z = 18\end{cases} \) &lt;/p&gt;&lt;p&gt; x={1:NUMERICAL:=0.2:0.1#OK} &lt;/p&gt;&lt;p&gt; y={1:NUMERICAL:=0.0:0.1#OK} &lt;/p&gt;&lt;p&gt; z={1:NUMERICAL:=0.9:0.1#OK} &lt;/p&gt; ]]></text>
+      <text><![CDATA[ <p>Решите систему линейных уравнений. Ответ округлите до 1го знака после запятой</p><p> \( \begin{cases}3x + 2y + 13z = 2 \\1x + 1y + -5z = -2\\-4x + 11y + -4z = -3\end{cases} \) </p><p> x={1:NUMERICAL:=-0.3:0.1#OK} </p><p> y={1:NUMERICAL:=-0.3:0.1#OK} </p><p> z={1:NUMERICAL:=0.3:0.1#OK} </p> ]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>

@@ -1,11 +1,11 @@
 {% for task in tasks %}
-<!-- question: {{task.id}} -->
+<!-- question: {{task.id|safe}} -->
   <question type="cloze">
     <name>
-      <text>{{task.name}}</text>
+      <text>{{task.name|safe}}</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[ {{task.text}} ]]></text>
+      <text><![CDATA[ {{task.text|safe}} ]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
