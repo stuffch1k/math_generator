@@ -204,7 +204,7 @@ def GenerateSolveDoubleMatrixEquationTask():
   a1 = np.linalg.inv(a)
   b1 = np.linalg.inv(b)
   x = np.dot(a1,c)
-  answer = np.around(np.dot(x, b1), 1)
+  answer = np.around(np.dot(x, b1), 3)
   dic = {
   "task":task,
   "data": {"A": a.tolist(), "B": b.tolist(), "C": c.tolist()},
@@ -218,7 +218,7 @@ def GenerateSolveLinearEquationTask():
   second_equation = f"{a[1][0]}*x + {a[1][1]}*y + {a[1][2]}*z = {b[1].item()}"
   third_equation = f"{a[2][0]}*x + {a[2][1]}*y + {a[2][2]}*z = {b[2].item()}"
   task = "Решите систему линейных уравнений. Ответ округлите до 3х знаков после запятой"  
-  answer = np.around(x,1).tolist()
+  answer = np.around(x,3).tolist()
   dic = {
   "task":task,
   "data": {"first_equation": first_equation, "second_equation": second_equation, "third_equation" : third_equation},
