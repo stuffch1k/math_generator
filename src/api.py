@@ -1,8 +1,15 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from typing import List
 from generators import *
 from models.topics import *
 from models.model import *
+import xml.etree.ElementTree as ET
+from converter import xml_converter
+from fastapi.responses import StreamingResponse
+import html
+from moodle_converter import *
+from models.categories import TEST, category_count
+import json
 
 router = APIRouter()
 
@@ -26,6 +33,11 @@ async def get_topic_tasks(topic_id:int):
     tasks = await Task.objects.filter(topic=topic_id).all()
     return tasks
 
+@router.post("/import_params")
+async def return_query(tasks: List[TopicWithCompexity]):
+    return tasks
+
+
 @router.post("/task")
 async def create_tasks(tasks: List[TopicWithCompexity]):
     problem = []
@@ -34,33 +46,54 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
             for _ in range(task.count):
                 problem.append(await GenerateMatrixTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)))
+                category_count["Матрицы"]+=1
         if task.title == "Определители":
             for _ in range(task.count):
                 problem.append(await GenerateDeterminantTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+                category_count["Определители"]+=1
         if task.title == "Обратная матрица":
             for _ in range(task.count):
                 problem.append(await GenerateReverseMatrixTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+                category_count["Обратная матрица"]+=1
         if task.title == "Ранг":
             for _ in range(task.count):
                 problem.append(await GenerateMatrixRankTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+                category_count["Ранг"]+=1
         if task.title == "Матричные уравнения":
             for _ in range(task.count):
                 problem.append(await GenerateMatrixEquationTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+                category_count["Матричные уравнения"]+=1
         if task.title == "Системы линейных уравнений":
             for _ in range(task.count):
                 problem.append(await GenerateLinearEquationTask(
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
+                category_count["Системы линейных уравнений"]+=1
+    with open('src/test.json', 'w', encoding="utf-8") as file:
+        json.dump(problem, file, ensure_ascii=False)
+    with open('src/categories.json', 'w', encoding="UTF-8") as file:
+        json.dump(category_count, file, ensure_ascii=False)
     return problem
 
-@router.get("/convert_xml")
-async def get_xml():
-    pass
+@router.get("/convert")
+async def converter():
+    with open('src/test.json', 'r', encoding="utf-8") as file:
+        json_test = json.load(file)
+    with open('src/categories.json','r',  encoding="utf-8") as file:
+        json_cats = json.load(file)
+    result = convert_to_moodle(json_test, json_cats)
+    with open('src/test.json', 'wb'):
+        pass
+    with open('src/categories.json', 'wb'):
+        pass
+    return Response(content = result, media_type="application/xml")
+
+

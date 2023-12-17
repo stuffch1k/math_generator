@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<question type="category">
+    <category>
+      <text>$course$/top/{{common_category|safe}}</text>
+    </category>
+    <info format="html">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+</question>
+
+{% for rendered_template in rendered_templates %}
+    {{rendered_template|safe}}
+{% endfor %}
+</quiz>

@@ -1,0 +1,10 @@
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text>$course$/top/{{category_name|safe}}</text>
+    </category>
+    <info format="html">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+  </question>
