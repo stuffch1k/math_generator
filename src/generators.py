@@ -1,7 +1,9 @@
+from models.model import *
 from schemas import *
 import numpy as np
 import sympy as sp
-from models.model import *
+import scipy as sc
+from random import *
 from math import *
 from converter import matrix_line_convert, create_matrix_ctask, number_convert
 
@@ -168,7 +170,7 @@ def GenerateDeterminantEquationTask(topic):
 
 def GenerateFindReverseMatrixTask(topic):
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
-  answer = np.around(np.linalg.inv(matrix), 3)
+  answer = np.around(np.linalg.inv(matrix), 1)
   task = "Найдите обратную матрицу (округлить до 3х знаков после запятой)" #Запрос к бд
   moodle_task = f"<p>{task}</p>" + \
   f"<p> {create_matrix_ctask(matrix.tolist())}</p>" + \
@@ -188,7 +190,7 @@ def GenerateFindReverseMatrixTask(topic):
 
 def GenerateFindReversedMatrixElementTask(topic):
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
-  reversed_matrix = np.around(np.linalg.inv(matrix), 3)
+  reversed_matrix = np.around(np.linalg.inv(matrix), 1)
 
   row_count = matrix.shape[0]
   columns_count = matrix.shape[1]  
@@ -248,7 +250,7 @@ def GenerateSolveMatrixEquationTask(topic):
   a = generateNonsingularMatrix(-9, 10, 3, 3)
   b = generateNonsingularMatrix(-9, 10, 3, 3)
   a1 = np.linalg.inv(a)
-  answer = np.around(np.dot(a1, b), 3)
+  answer = np.around(np.dot(a1, b), 1)
   task = "Решите уравнение вида A*X = B. Ответ округлите до 3х знаков после запятой"
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Матрица А = {create_matrix_ctask(a.tolist())}</p>" + \
@@ -318,14 +320,14 @@ def GenerateSolveLinearEquationTask(topic):
 
 
 def GenerateScalarVectorMultiplicationTask():
-  a = np.random.randint(-20, 21, size=(1,3))
-  b = np.random.randint(-20, 21, size=(1,3))
+  a = np.random.randint(-20, 21, size=(1,3))[0]
+  b = np.random.randint(-20, 21, size=(1,3))[0]
   task = "Вычислите скалярное произведение векторов A и B."
-  answer = a * b
+  answer = a @ b
   dic = {
     "task": task,
-    "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
-    "answer": answer.tolist()[0]}
+    "data": {"A": a.tolist(), "B": b.tolist()},
+    "answer": answer}
   return dic
 
 
@@ -351,7 +353,7 @@ def GenerateVectorVectorMultiplicationModuleTask():
   a = temp["data"]["A"]
   b = temp["data"]["B"]
   vector = np.array(temp["answer"])
-  answer = np.around(sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2 ), 3)
+  answer = np.around(sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2 ), 1)
   task = "Вычислите длинну вектора, полученную в результате векторного произведения A и B"
   dic = {
     "task": task,
@@ -374,7 +376,66 @@ def GenerateMixedVectorMultiplicationTask():
     "answer": answer}
   return dic
 
+
+def GenerateIsCollinearVectorsTask():
+  switch = np.random.randint(0, 2, size=(1,1))[0][0]
+
+  if switch == 0:
+    a = np.random.randint(-20, 21, size=(1,3))[0]
+    b = np.random.randint(-20, 21, size=(1,3))[0]
+  else:
+    fraction = np.random.randint(-3, 5, size=(1,1))[0][0]
+    a = np.random.randint(-20, 21, size=(1,3))[0]
+    b = fraction * a
+
+  first,second,third = a[0]/b[0],a[1]/b[1],a[2]/b[2]
+
+  task = "Являются ли вектор A и вектор B коллинеарными? В ответе указать Да или Нет."
+  ansver = "Да" if np.equal(first,second) and np.equal(first,third) else "Нет"
+
+  dic = {
+    "task": task,
+    "data": {"A": a.tolist(), "B": b.tolist()},
+    "ansver": ansver}
+
+  return dic
+
+
+def GenerateIsComplanarVectorsTask():
+  switch = np.random.randint(0, 2, size=(1,1))[0][0]
+
+  if switch == 0:
+    data = generateNonsingularMatrix(-20, 21, 3, 3)
+  else:
+    data = generateSingularMatrix(-20, 21, 3, 3)
   
+  task = "Являются ли векторы A B и C компланарными? В ответе указать Да или Нет."
+  answer = "Да" if switch != 0 else "Нет"
+
+  dic = {
+    "task": task,
+    "data": {"A": data[0].tolist(), "B":data[1].tolist(), "C": data[2].tolist()},
+    "answer": answer}
+  
+  return dic
+
+
+def GenerateFindParalelLineEquationTask():
+  A1,A2 = randint(-9, 9),randint(-9, 9)
+  A = sp.Point(A1,A2)
+  B1,B2 = randint(-9, 9),randint(-9, 9)
+  L1 = sp.Line((0, 0), (B1, B2))
+
+  L2 = L1.parallel_line(A)
+  task = f"Известно, что прямая  L  проходит через начало координат и точку  B({B1},{B2}). Записать уравнение прямой, проходящей через точку  A({A1},{A2})  параллельно прямой  L"
+  answer = L2.equation()
+
+  dic = {
+    "task": task,
+    "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в таске.
+    "answer": answer}
+  
+  return dic
 
 
 def generateSLU(x_count, equation_count, min_value, max_value):
@@ -400,6 +461,13 @@ def generateNonsingularMatrix(min_value, max_value, rows_count, columns_count):
   while (np.linalg.det(a) == 0):
     a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
 
+  return a
+
+
+def generateSingularMatrix(min_value, max_value, rows_count, columns_count):
+  a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
+  while (np.linalg.det(a) != 0):
+    a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
   return a
 
 
@@ -521,3 +589,23 @@ async def GenerateVectorTask(topic: TopicForGenerator):
       task = GenerateMixedVectorMultiplicationTask()
       await create_db_task(topic, task)
       return task
+    case 4:
+      task = GenerateIsCollinearVectorsTask()
+      await create_db_task(topic, task)
+      return task
+    case 5:
+      task = GenerateIsComplanarVectorsTask()
+      await create_db_task(topic, task)
+      return task
+
+
+'''
+Генерация задач про прямые на плоскости
+'''    
+async def GenerateVectorTask(topic: TopicForGenerator):
+  match topic.complexity:
+    case 0:
+      task = GenerateFindParalelLineEquationTask()
+      await create_db_task(topic, task)
+      return task
+    
