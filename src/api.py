@@ -3,10 +3,6 @@ from typing import List
 from generators import *
 from models.topics import *
 from models.model import *
-import xml.etree.ElementTree as ET
-from converter import xml_converter
-from fastapi.responses import StreamingResponse
-import html
 from moodle_converter import *
 from models.categories import TEST, category_count
 import json
@@ -77,6 +73,12 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
                 category_count["Системы линейных уравнений"]+=1
+        if task.title == "Скалярное, векторное, смешанное произведение векторов":
+            for _ in range(task.count):
+                problem.append(await GenerateVectorTask(
+                    TopicForGenerator(title=task.title, complexity=task.complexity)
+                ))
+                category_count["Скалярное, векторное, смешанное произведение векторов"]+=1
     with open('src/test.json', 'w', encoding="utf-8") as file:
         json.dump(problem, file, ensure_ascii=False)
     with open('src/categories.json', 'w', encoding="UTF-8") as file:
