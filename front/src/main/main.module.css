@@ -1,0 +1,46 @@
+.flex {
+    display: flex;
+}
+
+.rightDiv {
+    background-color: #14245E;
+    width: 825px;
+    background-image: url('../img/graph.svg');
+    background-position: center left;
+    background-repeat: no-repeat;
+    height: 740px;
+}
+
+.outside {
+    display: flex;
+    padding-top: 200px;
+    margin-left: 165px;
+    margin-right: 52px;
+    width: 503px;
+    flex-direction: column;
+    align-items: left;
+}
+
+.header {
+    margin-bottom: 50px;
+    font-family: "Monsterrat";
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 60px;
+}
+
+.text {
+    margin-bottom: 75px;
+    width: 606px;
+    font-family: "Monsterrat";
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+.leftDiv {
+    background-image: url('../img/logo.png');
+    background-repeat: no-repeat;
+    background-position: 8% 5%;
+    background-size: 35%;
+}

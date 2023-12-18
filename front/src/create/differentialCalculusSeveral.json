@@ -1,0 +1,90 @@
+{
+    "name": "Themes",
+    "type": "theme",
+    "themes": [
+        {
+            "title": "Частные производные",
+            "complexity": [
+                {
+                    "easy": "0-3",
+                    "medium": "4",
+                    "hard": "5"
+                }
+            ],
+            "english_name": "partial_derivative",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        },
+        {
+            "title": "Дифференцирование функций нескольких переменных",
+            "complexity": [
+                {
+                    "easy": "0",
+                    "medium": "0",
+                    "hard": "1"
+                }
+            ],
+            "english_name": "differential_vars",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        },
+        {
+            "title": "Экстремум функции нескольких переменных: локальный, глобальный, условный экстремум",
+            "complexity": [
+                {
+                    "easy": "0",
+                    "medium": "0",
+                    "hard": "1"
+                }
+            ],
+            "english_name": "extremum_vars",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        },
+        {
+            "title": "Касательная плоскость и нормаль к поверхности",
+            "complexity": [
+                {
+                    "easy": "0",
+                    "medium": "0",
+                    "hard": "0"
+                }
+            ],
+            "english_name": "tangent",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        },
+        {
+            "title": "Производная по направлению",
+            "complexity": [
+                {
+                    "easy": "0",
+                    "medium": "0",
+                    "hard": "1"
+                }
+            ],
+            "english_name": "directional_derivative",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        },
+        {
+            "title": "Градиент",
+            "complexity": [
+                {
+                    "easy": "0",
+                    "medium": "0",
+                    "hard": "0"
+                }
+            ],
+            "english_name": "gradient",
+            "isVisible": false,
+            "count": 1,
+            "selectedComplexity": 0
+        }
+    ]
+}

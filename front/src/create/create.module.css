@@ -1,0 +1,186 @@
+.flex {
+    display: flex;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: normal;
+    min-height: 707px;
+}
+
+.leftDiv {
+    width: 510px;
+    background-color: #14245E;
+    color: #FFFFFF;
+    padding-top: 50px;
+}
+
+.logo {
+    margin-bottom: 30px;
+    padding-left: 54px;
+}
+
+.theme {
+    padding: 24px 93px 24px 54px;
+    background: none;
+    border: none;
+    text-align: left;
+    color: #FFFFFF;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 1px;
+    cursor: pointer;
+}
+
+.theme:hover {
+    background-color: #283872;
+}
+
+.checked {
+    background-color: #283872;
+    background-image: url('../img/arrow-right.svg');
+    background-repeat: no-repeat;
+    background-position: 90% 50%;
+}
+
+.centerDiv {
+    background-color: #283872;
+    padding-top: 50px;
+    width: 440px;
+    font-size: 16px;
+}
+
+.customCheckbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+
+}
+
+.customCheckbox+label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.customCheckbox+label::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid #E87403;
+    border-radius: 7px;
+    margin-left: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80% 80%;
+}
+
+/*color blue */
+.customCheckbox:checked+label::after {
+    background-image: url(../img/checbox-default.svg);
+}
+
+.customCheckbox:not(:disabled):active+label::after {
+    border-color: #E87403;
+    background-image: url(../img/checbox-default.svg);
+}
+
+.customCheckbox:checked+label {
+    background-color: #FFFFFF;
+    color: #000;
+}
+
+.customCheckbox:focus+label::after,
+.customCheckbox:hover+label::after {
+    border-color: #FFB746;
+    background-image: url(../img/checkbox-hover.svg);
+}
+
+.label:focus,
+.label:hover {
+    color: #000;
+    background-color: #FFFFFF;
+}
+
+.label:active {
+    color: #000;
+    background-color: #FFFFFF;
+}
+
+
+/* checkbox not checked */
+
+
+.customCheckbox:not(:disabled):not(:checked)+label:hover::after {
+    border-color: #E87403;
+    background-image: none;
+}
+
+.customCheckbox:not(:disabled):not(:checked)+label:active::after,
+.customCheckbox:focus:not(:checked)+label::after {
+    border-color: #FFB746;
+    background-image: none;
+}
+
+label {
+    padding: 15px 32px;
+}
+
+.rightDiv {
+    width: 727px;
+    padding: 65px 0 50px 150px;
+    margin-right: -120px;
+}
+
+.oneTheme {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.parameters {
+    margin-top: 48px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 442px;
+}
+
+.numberInput {
+    width: 118px;
+    height: 38px;
+    border: 1px solid #14245E;
+    border-radius: 3px;
+    padding-left: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 48px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.buttonContainer {
+    padding-right: 127px;
+    padding-bottom: 63px;
+    align-self: flex-end;
+}
