@@ -29,7 +29,7 @@ def GenerateMatrixElementTask(topic):
   row_index = np.random.randint(0,row_count, size=(1,1))[0][0]
   column_index = np.random.randint(0,columns_count, size=(1,1))[0][0]
   answer = matrix[row_index][column_index]
-  task = f'Чему равен элемент матрицы А{row_index, column_index}?' #сделать запрос к бд
+  task = f'Чему равен элемент матрицы А{row_index+1, column_index+1}?' #сделать запрос к бд
   moodle_task = f"<p>{task}</p>" + \
   f"<p> {create_matrix_ctask(matrix.tolist())}</p>" + \
   "<p> {1:NUMERICAL:=" + f'{answer.item()}' + ":0.0#OK}</p>"
@@ -272,7 +272,7 @@ def GenerateSolveDoubleMatrixEquationTask(topic):
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Матрица А = {create_matrix_ctask(a.tolist())}</p>" + \
   f"<p>Матрица В = {create_matrix_ctask(b.tolist())}</p>" + \
-  f"<p>Матрица C = {create_matrix_ctask(b.tolist())}</p>" + \
+  f"<p>Матрица C = {create_matrix_ctask(c.tolist())}</p>" + \
   f"<p>Результат: </p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[0], 3)}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[1], 3)}</p>" + \
@@ -333,21 +333,17 @@ def GenerateVectorVectorMultiplicationTask(topic):
   a = np.random.randint(-20, 21, size=(1,3))
   b = np.random.randint(-20, 21, size=(1,3))
 
-  combined = np.vstack([a, b])
-  xy = combined[:2, :2]
-  yz = combined[:2, 1:3]
-  xz = combined[:2, [0, 2]]
-  answer = np.array([int(np.linalg.det(yz)), -1 * int(np.linalg.det(xz)), int(np.linalg.det(xy))])
+  answer = np.cross(a,b)[0].tolist()
   task = f"Вычислите векторное произведение векторов {vector_name_convert('a')} и {vector_name_convert('b')}."
   moodle_task = f"<p>{task}</p>" + \
   f"<p>{vector_convert('a', a.tolist()[0])}</p>" + \
   f"<p>{vector_convert('b', b.tolist()[0])}</p>" + \
-  f"<p>{vector_vector_convert(answer.tolist())}</p>"
+  f"<p>{vector_vector_convert(answer)}</p>"
   dic = {
     "topic":topic,
     "task": task,
     "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
-    "answer": answer.tolist(),
+    "answer": answer,
     "moodle_task":moodle_task}
   return dic
 

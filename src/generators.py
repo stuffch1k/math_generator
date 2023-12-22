@@ -113,7 +113,7 @@ async def GenerateLinearEquationTask(topic: TopicForGenerator):
 
 
 '''
-Генерация задач на действия с векторами
+Генерация задач Скалярное, векторное, смешанное произведение векторов
 '''
 async def GenerateVectorTask(topic: TopicForGenerator):
   match topic.complexity:
