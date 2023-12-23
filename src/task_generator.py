@@ -447,7 +447,24 @@ def GenerateIsComplanarVectorsTask(topic):
   return dic
 
 
-def GenerateFindParalelLineEquationTask():
+def GenerateFindLineEquationByPointsTask():
+  A1,A2 = randint(-9, 9),randint(-9, 9)
+  B1,B2 = randint(-9, 9),randint(-9, 9)
+
+  A, B = sp.Point(A1, A2), sp.Point(B1, B2)
+  L = sp.Line(A, B)
+
+  task = f"Составить уравнение прямой, проходящей через две точки:  A({A1},{A2})  и  B({B1},{B2})"
+  answer = L.equation()
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+  return dic
+
+
+def GenerateFindParalelLineEquationByEquationTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   A = sp.Point(A1,A2)
   B1,B2 = randint(-9, 9),randint(-9, 9)
@@ -462,6 +479,93 @@ def GenerateFindParalelLineEquationTask():
     "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в таске.
     "answer": answer}
   
+  return dic
+
+
+def GenerateFindParalelLineEquationByPointsTask():
+  A1,A2 = randint(-9, 9),randint(-9, 9)
+  B1,B2 = randint(-9, 9),randint(-9, 9)
+  C1,C2 = randint(-9, 9),randint(-9, 9)
+  A = sp.Point(A1,A2)
+  L1 = sp.Line((B1, B2), (C1, C2))
+
+  L2 = L1.parallel_line(A)
+  task = f"Составить уравнение прямой, проходящей через точку А({A1},{A2}), параллельную прямой BC, если B({B1},{B2}), C({C1},{C2})"
+  answer = L2.equation()
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+
+
+def GenerateFindCrossPointOfTwoLinesTask():
+  A1,A2 = randint(-9, 9),randint(-9, 9)
+  B1,B2 = randint(-9, 9),randint(-9, 9)
+  C1,C2 = randint(-9, 9),randint(-9, 9)
+  D1,D2 = randint(-9, 9),randint(-9, 9)
+
+  L1 = sp.Line((A1, A2), (B1, B2))
+  L2 = sp.Line((C1, C2), (D1, D2))
+
+  task = f"Найти точку пересечения прямых L1 и L2, если известно, что прямая L1 проходит через точки А({A1},{A2}) и B({B1},{B2}), а прямая L2 проходит через точки C({C1},{C2}) и D({D1},{D2})"
+  answer = list(L1.intersection(L2)[0].coordinates)
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+  return dic
+
+
+def GenerateFindDicstanceFromLineToPointTask():
+  A1,A2 = randint(-9, 9),randint(-9, 9)
+  B1,B2 = randint(-9, 9),randint(-9, 9)
+  C1,C2 = randint(-9, 9),randint(-9, 9)
+
+  C = sp.Point(C1, C2)
+  L1 = sp.Line((A1, A2), (B1, B2))
+
+  task = f"Известно, что прямая L проходит через точки A({A1},{A2}) и B({B1},{B2}). Из точки C({C1},{C2}) на прямую L опущен перпендикуляр, который касается её в точке D. Определить длину отрезка CD. Пример формы ответа: 3*sqrt(26)/13"
+  answer = L1.perpendicular_segment(C).length
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+  return dic
+
+
+def GenerateFindPlaneEquationByThreePointsTask():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  C1,C2,C3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  alpha = sp.Plane(sp.Point3D(A1, A2, A3), sp.Point3D(B1, B2, B3), sp.Point3D(C1, C2, C3))
+
+  task = f"Записать уравнение плоскости, проходящей через точки A({A1},{A2},{A3}), B({B1},{B2},{B3}), C({C1},{C2},{C3}). Пример формы записи ответа: 38*x - 136*y - 126*z - 574"
+  answer = alpha.equation()
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+  return dic
+
+
+def GenerateFindPlaneEquationByPointAndNormalVector():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  alpha = sp.Plane(sp.Point3D(A1, A2, A3), normal_vector =(B1, B2, B3))
+
+  task = f"Записать уравнение плоскости a, которая проходит через точку M({A1},{A2},{A3}) и перпендикулярна вектору n =({B1},{B2},{B3}). Пример записи ответа: -3*x - 8*y - 8*z + 85"
+  answer = alpha.equation()
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
   return dic
 
 
@@ -496,4 +600,3 @@ def generateSingularMatrix(min_value, max_value, rows_count, columns_count):
   while (np.linalg.det(a) != 0):
     a = np.random.randint(min_value, max_value, size=(rows_count, columns_count))
   return a
-
