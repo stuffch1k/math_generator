@@ -5,7 +5,7 @@ import numpy as np
 import os
 from random import randint
 
-path=os.path.join(os.path.dirname(__file__),'./templates_xml')
+path=os.path.join(os.path.dirname(os.path.dirname(__file__)),'./templates_xml')
 
 # настройки шаблонизатора
 env = Environment(

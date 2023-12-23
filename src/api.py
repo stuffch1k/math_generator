@@ -3,7 +3,7 @@ from typing import List
 from generators import *
 from models.topics import *
 from models.model import *
-from moodle_converter import *
+from moodle_export.moodle_converter import *
 from models.categories import TEST, category_count
 import json
 
@@ -79,22 +79,22 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
                 category_count["Скалярное, векторное, смешанное произведение векторов"]+=1
-    with open('src/test.json', 'w', encoding="utf-8") as file:
+    with open('src/temp_files/test.json', 'w', encoding="utf-8") as file:
         json.dump(problem, file, ensure_ascii=False)
-    with open('src/categories.json', 'w', encoding="UTF-8") as file:
+    with open('src/temp_files/categories.json', 'w', encoding="UTF-8") as file:
         json.dump(category_count, file, ensure_ascii=False)
     return problem
 
 @router.get("/convert")
 async def converter():
-    with open('src/test.json', 'r', encoding="utf-8") as file:
+    with open('src/temp_files/test.json', 'r', encoding="utf-8") as file:
         json_test = json.load(file)
-    with open('src/categories.json','r',  encoding="utf-8") as file:
+    with open('src/temp_files/categories.json','r',  encoding="utf-8") as file:
         json_cats = json.load(file)
     result = convert_to_moodle(json_test, json_cats)
-    with open('src/test.json', 'wb'):
+    with open('src/temp_files/test.json', 'wb'):
         pass
-    with open('src/categories.json', 'wb'):
+    with open('src/temp_files/categories.json', 'wb'):
         pass
     return Response(content = result, media_type="application/xml")
 

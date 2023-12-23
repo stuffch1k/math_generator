@@ -3,7 +3,7 @@ import sympy as sp
 import scipy as sc
 from random import *
 from math import *
-from converter import *
+from moodle_export.converter import *
 
 def GenerateMatrixSizeTask(topic):
   matrix = np.random.randint(10, size=(4, 4))

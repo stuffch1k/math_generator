@@ -5,7 +5,7 @@ import sympy as sp
 import scipy as sc
 from random import *
 from math import *
-from converter import *
+from moodle_export.converter import *
 from task_generator import *
 
 async def create_db_task(topic_schema, task):
