@@ -1,7 +1,10 @@
 export async function sendTasks(data) {
-    const response = await fetch('/api/create-task', {
+    const response = await fetch('http://localhost:8080/task', {
         method: 'POST',
-        body: getSendTasksRequestModel(data)
+        body: getSendTasksRequestModel(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
     console.log(response);
 }
