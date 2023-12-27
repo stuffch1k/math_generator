@@ -146,10 +146,27 @@ async def GenerateVectorTask(topic: TopicForGenerator):
 '''
 Генерация задач про прямые на плоскости
 '''    
-async def GenerateLineTask(topic: TopicForGenerator):
+async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
-      task = GenerateFindParalelLineEquationTask()
-      await create_db_task(topic, task)
-      return task
+      task = GenerateFindLineEquationByPointsTask()
+    case 0:
+      task = GenerateFindParalelLineEquationByEquationTask()
+    case 1:
+      task = GenerateFindParalelLineEquationByPointsTask()
+    case 2:
+      task = GenerateFindCrossPointOfTwoLinesTask()
+    case 3:
+      task = GenerateFindDicstanceFromLineToPointTask()
+
+  await create_db_task(topic, task)
+  return task
+
+
+async def GenerateLineAndPlaneInSpaceTask(topic: TopicForGenerator):
+  match topic.complexity:
+    case 0:
+      task = GenerateFindPlaneEquationByThreePointsTask()
+    case 1:
+      task = GenerateFindPlaneEquationByPointAndNormalVector()
     
