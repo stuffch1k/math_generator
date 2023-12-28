@@ -6,6 +6,7 @@ from models.model import *
 from moodle_export.moodle_converter import *
 from models.categories import TEST, category_count
 import json
+import os
 
 router = APIRouter()
 
@@ -85,22 +86,26 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
                 category_count["Прямая на плоскости"] += 1
-    with open('src/temp_files/test.json', 'w', encoding="utf-8") as file:
+    path_test=os.path.join(os.path.dirname(__file__),r'temp_files\test.json')
+    path_cats=os.path.join(os.path.dirname(__file__),r'temp_files\categories.json')
+    with open(path_test, 'w', encoding="utf-8") as file:
         json.dump(problem, file, ensure_ascii=False)
-    with open('src/temp_files/categories.json', 'w', encoding="UTF-8") as file:
+    with open(path_cats, 'w', encoding="UTF-8") as file:
         json.dump(category_count, file, ensure_ascii=False)
     return problem
 
 @router.get("/convert")
 async def converter():
-    with open('src/temp_files/test.json', 'r', encoding="utf-8") as file:
+    path_test=os.path.join(os.path.dirname(__file__),r'temp_files\test.json')
+    path_cats=os.path.join(os.path.dirname(__file__),r'temp_files\categories.json')
+    with open(path_test, 'r', encoding="utf-8") as file:
         json_test = json.load(file)
-    with open('src/temp_files/categories.json','r',  encoding="utf-8") as file:
+    with open(path_cats,'r',  encoding="utf-8") as file:
         json_cats = json.load(file)
     result = convert_to_moodle(json_test, json_cats)
-    with open('src/temp_files/test.json', 'wb'):
+    with open(path_test, 'wb'):
         pass
-    with open('src/temp_files/categories.json', 'wb'):
+    with open(path_cats, 'wb'):
         pass
     return Response(content = result, media_type="application/xml")
 
