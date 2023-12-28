@@ -12,7 +12,7 @@ COPY . .
 
 RUN chmod a+x docker/*.sh
 
-RUN alembic updarge head
+RUN alembic upgrade head
 
 WORKDIR src
 
