@@ -4,6 +4,7 @@ import scipy as sc
 from random import *
 from math import *
 from moodle_export.converter import *
+import json
 
 def GenerateMatrixSizeTask(topic):
   matrix = np.random.randint(10, size=(4, 4))
@@ -443,7 +444,7 @@ def GenerateIsComplanarVectorsTask(topic):
   return dic
 
 
-def GenerateFindLineEquationByPointsTask():
+def GenerateFindLineEquationByPointsTask(topic):
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
 
@@ -451,17 +452,19 @@ def GenerateFindLineEquationByPointsTask():
   L = sp.Line(A, B)
 
   task = f"Составить уравнение прямой, проходящей через две точки:  A({A1},{A2})  и  B({B1},{B2})"
-  answer = str(L.equation())
+  answer = L.equation()
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Уравнение: {convert_equation(answer.args)}</p>"
   dic = {
+  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task": moodle_task}
   return dic
 
 
-def GenerateFindParalelLineEquationByEquationTask():
+def GenerateFindParalelLineEquationByEquationTask(topic):
   A1,A2 = randint(-9, 9),randint(-9, 9)
   A = sp.Point(A1,A2)
   B1,B2 = randint(-9, 9),randint(-9, 9)
@@ -470,16 +473,19 @@ def GenerateFindParalelLineEquationByEquationTask():
   L2 = L1.parallel_line(A)
   task = f"Известно, что прямая  L  проходит через начало координат и точку  B({B1},{B2}). Записать уравнение прямой, проходящей через точку  A({A1},{A2})  параллельно прямой  L"
   answer = L2.equation()
-
+  moodle_task = f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
   dic = {
+    "topic":topic,
     "task": task,
     "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в таске.
-    "answer": answer}
+    "answer": str(answer),
+    "moodle_task": moodle_task}
   
   return dic
 
 
-def GenerateFindParalelLineEquationByPointsTask():
+def GenerateFindParalelLineEquationByPointsTask(topic):
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)
@@ -489,14 +495,18 @@ def GenerateFindParalelLineEquationByPointsTask():
   L2 = L1.parallel_line(A)
   task = f"Составить уравнение прямой, проходящей через точку А({A1},{A2}), параллельную прямой BC, если B({B1},{B2}), C({C1},{C2})"
   answer = L2.equation()
-
+  moodle_task = f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
   dic = {
+  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task": moodle_task}
+  return dic
 
 
-def GenerateFindCrossPointOfTwoLinesTask():
+def GenerateFindCrossPointOfTwoLinesTask(topic):
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)
@@ -506,16 +516,18 @@ def GenerateFindCrossPointOfTwoLinesTask():
   L2 = sp.Line((C1, C2), (D1, D2))
 
   task = f"Найти точку пересечения прямых L1 и L2, если известно, что прямая L1 проходит через точки А({A1},{A2}) и B({B1},{B2}), а прямая L2 проходит через точки C({C1},{C2}) и D({D1},{D2})"
-  answer = list(L1.intersection(L2)[0].coordinates)
-
+  answer = L1.intersection(L2)[0].coordinates
   dic = {
+  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer) #возврат строкой - поправить
+ } 
+
   return dic
 
 
-def GenerateFindDicstanceFromLineToPointTask():
+def GenerateFindDicstanceFromLineToPointTask(topic):
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)

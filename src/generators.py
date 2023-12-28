@@ -21,7 +21,7 @@ async def create_db_task(topic_schema, task):
 async def GenerateMatrixTask(topic: TopicForGenerator):
     if topic.complexity == 0:
       task = GenerateMatrixSizeTask(topic.title)
-      # await create_db_task(topic, task)
+      await create_db_task(topic, task)
       return task
     elif topic.complexity == 1:
       task = GenerateMatrixElementTask(topic.title)
@@ -149,15 +149,15 @@ async def GenerateVectorTask(topic: TopicForGenerator):
 async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
-      task = GenerateFindLineEquationByPointsTask()
+      task = GenerateFindLineEquationByPointsTask(topic.title)
     case 1:
-      task = GenerateFindParalelLineEquationByEquationTask()
+      task = GenerateFindParalelLineEquationByEquationTask(topic.title)
     case 2:
-      task = GenerateFindParalelLineEquationByPointsTask()
+      task = GenerateFindParalelLineEquationByPointsTask(topic.title)
     case 3:
-      task = GenerateFindCrossPointOfTwoLinesTask()
+      task = GenerateFindCrossPointOfTwoLinesTask(topic.title)
     case 4:
-      task = GenerateFindDicstanceFromLineToPointTask()
+      task = GenerateFindDicstanceFromLineToPointTask(topic.title)
 
   await create_db_task(topic, task)
   return task

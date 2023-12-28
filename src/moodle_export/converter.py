@@ -84,9 +84,10 @@ def convert_equation(args):
     return equation_answer(ax, by, c)
 
 def equation_answer(ax, by, c, round = 0):
-    return f"{{1:NUMERICAL:={ax}:0.{round}#OK*x + 1:NUMERICAL:={by}:0.{round}#OK*y + 1:NUMERICAL:={c}:0.{round}#OK}}"
+    return f"{{1:NUMERICAL:={ax}:0.{round}#OK}}*x + {{1:NUMERICAL:={by}:0.{round}#OK}}*y + {{1:NUMERICAL:={c}:0.{round}#OK}}"
 
-
+def point_answer(point, round = 0):
+    return f"({{1:NUMERICAL:={point[0]}:0.{round}#OK}}, {{1:NUMERICAL:={point[1]}:0.{round}#OK}})"
 
 
 
