@@ -79,6 +79,12 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
                 category_count["Скалярное, векторное, смешанное произведение векторов"]+=1
+        if task.title == "Прямая на плоскости":
+            for _ in range(task.count):
+                problem.append(await GenerateVectorOnPlaneTask(
+                    TopicForGenerator(title=task.title, complexity=task.complexity)
+                ))
+                category_count["Прямая на плоскости"] += 1
     with open('src/temp_files/test.json', 'w', encoding="utf-8") as file:
         json.dump(problem, file, ensure_ascii=False)
     with open('src/temp_files/categories.json', 'w', encoding="UTF-8") as file:

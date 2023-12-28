@@ -150,13 +150,13 @@ async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
       task = GenerateFindLineEquationByPointsTask()
-    case 0:
-      task = GenerateFindParalelLineEquationByEquationTask()
     case 1:
-      task = GenerateFindParalelLineEquationByPointsTask()
+      task = GenerateFindParalelLineEquationByEquationTask()
     case 2:
-      task = GenerateFindCrossPointOfTwoLinesTask()
+      task = GenerateFindParalelLineEquationByPointsTask()
     case 3:
+      task = GenerateFindCrossPointOfTwoLinesTask()
+    case 4:
       task = GenerateFindDicstanceFromLineToPointTask()
 
   await create_db_task(topic, task)

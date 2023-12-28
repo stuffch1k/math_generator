@@ -1,27 +1,6 @@
 from schemas import TopicWithCompexity
 import xml.etree.ElementTree as ET
-import html
-
-# def xml_converter(title, task):
-#     xml_task = ET.Element('question', type = 'cloze')
-#     name = ET.Element('name')
-#     tname = ET.Element('text')
-#     tname.text = title
-#     name.append(tname)
-#     question = ET.Element('questiontext', format="html")
-#     tquestion = ET.Element('text')
-#     text = task["task"]
-#     data = task["data"]
-#     answer = task["answer"]
-#     ctext = text
-#     ctask = create_matrix_ctask(data)
-#     canswer = create_matrix_canswer(answer)
-#     tquestion.text = f"<![CDATA[<p>{ctext}</p><p>{ctask}</p><p>Ответ: {canswer}</p>]]>" 
-#     question.append(tquestion)
-#     xml_task.append(name)
-#     xml_task.append(question)
-#     print(xml_task)
-#     return xml_task
+import re
 
 def create_matrix_ctask(matrix):
     result = f""
@@ -84,6 +63,29 @@ def true_false_cloze(answer):
     else: 
         no = 100
     return f"{{1:SHORTANSWER:%{yes}%Да#~%{no}%Нет#}}"
+
+def convert_equation(args):
+    ax = 0
+    by = 0
+    c = args[0]
+    for element in args:
+        if "x" in str(element):
+            ax = 0 if re.match(r'^-?\d*', str(element)) is None else re.match(r'^-?\d*', str(element)).group(0)
+            if ax == "-":
+                ax = -1
+            elif ax == "":
+                ax = 1
+        if "y" in str(element):
+            by = 0 if  re.match(r'^-?\d*', str(element)) is None else re.match(r'^-?\d*', str(element)).group(0)
+            if by == "-":
+                by = -1
+            elif by == "":
+                by=1
+    return equation_answer(ax, by, c)
+
+def equation_answer(ax, by, c, round = 0):
+    return f"{{1:NUMERICAL:={ax}:0.{round}#OK*x + 1:NUMERICAL:={by}:0.{round}#OK*y + 1:NUMERICAL:={c}:0.{round}#OK}}"
+
 
 
 

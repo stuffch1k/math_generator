@@ -451,8 +451,9 @@ def GenerateFindLineEquationByPointsTask():
   L = sp.Line(A, B)
 
   task = f"Составить уравнение прямой, проходящей через две точки:  A({A1},{A2})  и  B({B1},{B2})"
-  answer = L.equation()
-
+  answer = str(L.equation())
+  moodle_task = f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
   dic = {
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
