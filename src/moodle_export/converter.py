@@ -86,8 +86,28 @@ def convert_equation(args):
 def equation_answer(ax, by, c, round = 0):
     return f"{{1:NUMERICAL:={ax}:0.{round}#OK}}*x + {{1:NUMERICAL:={by}:0.{round}#OK}}*y + {{1:NUMERICAL:={c}:0.{round}#OK}}"
 
-def point_answer(point, round = 0):
-    return f"({{1:NUMERICAL:={point[0]}:0.{round}#OK}}, {{1:NUMERICAL:={point[1]}:0.{round}#OK}})"
+def rational_answer(point, round = 0):
+    beg = r"\( \begin{pmatrix}"
+    begin =  r"\( \mathbb{ "
+    end = r"}\)"
+    numerator = number_convert(point.numerator)
+    denominator = number_convert(point.denominator)
+    return begin+numerator+r"/"+denominator+end
+    # return f"({{1:NUMERICAL:={point[0]}:0.{round}#OK}}, {{1:NUMERICAL:={point[1]}:0.{round}#OK}})"
 
+def distance_task(answer):
+    if answer.is_integer:
+        return number_convert(answer)
+    if answer.is_rational:
+        return rational_answer(answer)
+    if answer.is_Pow:
+        return f"sqrt({number_convert(answer.args[0])})"
+    if answer.is_Mul:
+        if answer.args[0].is_integer:
+            sq = answer.args[1].args[0]
+            return f"{number_convert(answer.args[0])}*sqrt{number_convert(answer.args[1].args[0])}"
+        if answer.args[0].is_rational:
+            sq = answer.args[1].args[0]
+            return f"{rational_answer(answer.args[0])}*sqrt{number_convert(answer.args[1].args[0])}"
 
 

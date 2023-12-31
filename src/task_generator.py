@@ -517,14 +517,19 @@ def GenerateFindCrossPointOfTwoLinesTask(topic):
 
   task = f"Найти точку пересечения прямых L1 и L2, если известно, что прямая L1 проходит через точки А({A1},{A2}) и B({B1},{B2}), а прямая L2 проходит через точки C({C1},{C2}) и D({D1},{D2})"
   answer = L1.intersection(L2)[0].coordinates
+  moodle_task = f"<p>{task}</p>" + \
+  f"<p>Точка пересечения: {rational_answer(answer[0])}, {rational_answer(answer[1])}</p>"
   dic = {
   "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": str(answer) #возврат строкой - поправить
+  "answer": str(answer), #возврат строкой - поправить
+  "moodle_task":moodle_task
  } 
 
   return dic
+
+
 
 
 def GenerateFindDicstanceFromLineToPointTask(topic):
@@ -537,11 +542,14 @@ def GenerateFindDicstanceFromLineToPointTask(topic):
 
   task = f"Известно, что прямая L проходит через точки A({A1},{A2}) и B({B1},{B2}). Из точки C({C1},{C2}) на прямую L опущен перпендикуляр, который касается её в точке D. Определить длину отрезка CD. Пример формы ответа: 3*sqrt(26)/13"
   answer = L1.perpendicular_segment(C).length
-
+  moodle_task = f"<p>{task}</p>" + \
+  f"<p>Длина отрезка: {distance_task(answer)}</p>"
   dic = {
+  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task": moodle_task}
   return dic
 
 

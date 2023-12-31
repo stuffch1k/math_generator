@@ -162,7 +162,9 @@ async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   await create_db_task(topic, task)
   return task
 
-
+'''
+Генерация на Прямая и плоскость в пространстве
+'''
 async def GenerateLineAndPlaneInSpaceTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
