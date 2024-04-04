@@ -168,18 +168,17 @@ async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
 async def GenerateLineAndPlaneInSpaceTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
-      task = GenerateFindPlaneEquationByThreePointsTask()
+      task = GenerateFindPlaneEquationByThreePointsTask(topic.title)
     case 1:
-      task = GenerateFindPlaneEquationByPointAndNormalVector()
+      task = GenerateFindPlaneEquationByPointAndNormalVector(topic.title)
     case 2:
-      task = GenerateFindParallelPlaneEquationTask()
+      task = GenerateFindParallelPlaneEquationTask(topic.title)
     case 3:
-      task = GenerateFindOrtPlaneEquationTask()
+      task = GenerateFindOrtPlaneEquationTask(topic.title)
     case 4:
-      task = GeneratePointProjectionOnLineTask()
+      task = GeneratePointProjectionOnLineTask(topic.title)
     case 5:
-      task = GeneratePointProjectionOnPlainTask()
-    
+      task = GeneratePointProjectionOnPlainTask(topic.title)
 
   await create_db_task(topic, task)
   return task

@@ -545,7 +545,7 @@ def GenerateFindDicstanceFromLineToPointTask(topic):
   return dic
 
 
-def GenerateFindPlaneEquationByThreePointsTask():
+def GenerateFindPlaneEquationByThreePointsTask(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   C1,C2,C3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -555,14 +555,19 @@ def GenerateFindPlaneEquationByThreePointsTask():
   task = f"Записать уравнение плоскости, проходящей через точки A({A1},{A2},{A3}), B({B1},{B2},{B3}), C({C1},{C2},{C3}). Пример формы записи ответа: 38*x - 136*y - 126*z - 574"
   answer = alpha.equation()
 
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+
   dic = {
+  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task":moodle_task}
   return dic
 
 
-def GenerateFindPlaneEquationByPointAndNormalVector():
+def GenerateFindPlaneEquationByPointAndNormalVector(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
 
@@ -571,14 +576,18 @@ def GenerateFindPlaneEquationByPointAndNormalVector():
   task = f"Записать уравнение плоскости a, которая проходит через точку M({A1},{A2},{A3}) и перпендикулярна вектору n =({B1},{B2},{B3}). Пример записи ответа: -3*x - 8*y - 8*z + 85"
   answer = alpha.equation()
 
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
   dic = {
+  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task": moodle_task}
   return dic
 
 
-def GenerateFindParallelPlaneEquationTask():
+def GenerateFindParallelPlaneEquationTask(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -590,15 +599,20 @@ def GenerateFindParallelPlaneEquationTask():
   parallelPlane = alpha.parallel_plane(sp.Point3D(P1,P2,P3))
   answer = parallelPlane.equation()
 
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+
   dic = {
+    "topic":topic,
     "task": task,
     "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-    "answer": answer}
+    "answer": str(answer),
+    "moodle_task":moodle_task}
   
   return dic
 
 
-def GenerateFindOrtPlaneEquationTask():
+def GenerateFindOrtPlaneEquationTask(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -611,15 +625,19 @@ def GenerateFindOrtPlaneEquationTask():
 
   ortPlane = alpha.perpendicular_plane(A,B)
   answer = ortPlane.equation()
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
 
   dic = {
+  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task": moodle_task}
   return dic
 
 
-def GeneratePointProjectionOnLineTask():
+def GeneratePointProjectionOnLineTask(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   M1,M2,M3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -630,14 +648,18 @@ def GeneratePointProjectionOnLineTask():
   line = sp.Line((N1,N2,N3),(M1,M2,M3))
   answer = line.projection(A).coordinates
 
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Координаты: {rational_plane(answer)}</p>"
   dic = {
+  "topic":topic,  
   "task": task,
   "data": {}, 
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task":moodle_task}
   return dic
 
 
-def GeneratePointProjectionOnPlainTask():
+def GeneratePointProjectionOnPlainTask(topic):
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -649,10 +671,14 @@ def GeneratePointProjectionOnPlainTask():
   alpha = sp.Plane(sp.Point3D(P1, P2, P3), normal_vector =(N1, N2, N3))
   answer = alpha.projection(A).coordinates
   
+  moodle_task=f"<p>{task}</p>" + \
+  f"<p>Координаты: {rational_plane(answer)}</p>"
   dic = {
+  "topic":topic,  
   "task": task,
   "data": {}, 
-  "answer": answer}
+  "answer": str(answer),
+  "moodle_task":moodle_task}
   return dic
 
 

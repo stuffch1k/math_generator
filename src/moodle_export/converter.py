@@ -86,6 +86,46 @@ def convert_equation(args):
 def equation_answer(ax, by, c, round = 0):
     return f"{{1:NUMERICAL:={ax}:0.{round}#OK}}*x + {{1:NUMERICAL:={by}:0.{round}#OK}}*y + {{1:NUMERICAL:={c}:0.{round}#OK}}"
 
+def convert_plane_equation(args):
+    ax = 0
+    by = 0
+    zy=0
+    c = args[0]
+    for element in args:
+        if "x" in str(element):
+            ax = 0 if re.match(r'^-?\d*', str(element)) is None else re.match(r'^-?\d*', str(element)).group(0)
+            if ax == "-":
+                ax = -1
+            elif ax == "":
+                ax = 1
+        if "y" in str(element):
+            by = 0 if  re.match(r'^-?\d*', str(element)) is None else re.match(r'^-?\d*', str(element)).group(0)
+            if by == "-":
+                by = -1
+            elif by == "":
+                by=1
+        if "z" in str(element):
+            zy = 0 if  re.match(r'^-?\d*', str(element)) is None else re.match(r'^-?\d*', str(element)).group(0)
+            if zy == "-":
+                zy = -1
+            elif zy == "":
+                zy=1
+    return equation_plane_answer(ax, by, zy, c)
+
+def equation_plane_answer(ax, by, zy, c, round = 0):
+    return f"{{1:NUMERICAL:={ax}:0.{round}#OK}}*x + {{1:NUMERICAL:={by}:0.{round}#OK}}*y + {{1:NUMERICAL:={zy}:0.{round}#OK}}*z + {{1:NUMERICAL:={c}:0.{round}#OK}}"
+
+def rational_plane(mt):
+    ax=mt[0]
+    by=mt[1]
+    cz=mt[2]
+
+    x = f'\\frac{number_convert(ax.p)}{number_convert(ax.q)}'
+    y = f'\\frac{number_convert(by.p)}{number_convert(by.q)}'
+    z = f'\\frac{number_convert(cz.p)}{number_convert(cz.q)}'
+    return f"{x}, {y}, {z}"
+
+
 def point_answer(point, round = 0):
     return f"({{1:NUMERICAL:={point[0]}:0.{round}#OK}}, {{1:NUMERICAL:={point[1]}:0.{round}#OK}})"
 

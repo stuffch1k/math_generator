@@ -86,6 +86,12 @@ async def create_tasks(tasks: List[TopicWithCompexity]):
                     TopicForGenerator(title=task.title, complexity=task.complexity)
                 ))
                 category_count["Прямая на плоскости"] += 1
+        if task.title == "Прямая и плоскость в пространстве":
+            for _ in range(task.count):
+                problem.append(await GenerateLineAndPlaneInSpaceTask(
+                    TopicForGenerator(title=task.title, complexity=task.complexity)
+                ))
+                category_count["Прямая и плоскость в пространстве"] += 1
     path_test=os.path.join(os.path.dirname(__file__),r'temp_files\test.json')
     path_cats=os.path.join(os.path.dirname(__file__),r'temp_files\categories.json')
     with open(path_test, 'w', encoding="utf-8") as file:
