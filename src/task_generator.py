@@ -578,6 +578,84 @@ def GenerateFindPlaneEquationByPointAndNormalVector():
   return dic
 
 
+def GenerateFindParallelPlaneEquationTask():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  task = f"Плоскость α проходит через точку M({A1},{A2},{A3}) и перепендикулярна вектору n =({B1},{B2},{B3}). Найти уравнение плоскости β, параллельной α и проходящей через точку P({P1},{P2},{P3})"
+  
+  alpha = sp.Plane(sp.Point3D(A1, A2, A3), normal_vector =(B1, B2, B3))
+
+  parallelPlane = alpha.parallel_plane(sp.Point3D(P1,P2,P3))
+  answer = parallelPlane.equation()
+
+  dic = {
+    "task": task,
+    "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+    "answer": answer}
+  
+  return dic
+
+
+def GenerateFindOrtPlaneEquationTask():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  task = f"Плоскость α имеет нормальный вектор n =({N1},{N2},{N3}) и проходит через точку P({P1},{P2},{P3}). Найти уравнение плоскости, перпендикулярной α и проходящей через точки A({A1},{A2},{A3}) и B({B1},{B2},{B3}))"
+
+  alpha = sp.Plane(sp.Point3D(P1, P2, P3), normal_vector =(N1, N2, N3))
+  A,B = sp.Point3D(A1,A2,A3), sp.Point3D(B1,B2,B3)
+
+  ortPlane = alpha.perpendicular_plane(A,B)
+  answer = ortPlane.equation()
+
+  dic = {
+  "task": task,
+  "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
+  "answer": answer}
+  return dic
+
+
+def GeneratePointProjectionOnLineTask():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  M1,M2,M3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  task = f"Известно, что прямая L проходит через точку N({N1},{N2},{N3}) и точку M({M1},{M2},{M3}). Найти координаты проекции точки A({A1},{A2},{A3}) на прямую L"
+
+  A = sp.Point(A1,A2,A3)
+  line = sp.Line((N1,N2,N3),(M1,M2,M3))
+  answer = line.projection(A).coordinates
+
+  dic = {
+  "task": task,
+  "data": {}, 
+  "answer": answer}
+  return dic
+
+
+def GeneratePointProjectionOnPlainTask():
+  A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+  P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
+
+  task = f"Известно, что плоскость α проходит через точку P({P1},{P2},{P3})  и перпендикулярна вектору n =({N1},{N2},{N3}). Найти координаты проекции точки A({A1},{A2},{A3}) на плоскость α"
+  
+  A = sp.Point(A1, A2, A3)
+
+  alpha = sp.Plane(sp.Point3D(P1, P2, P3), normal_vector =(N1, N2, N3))
+  answer = alpha.projection(A).coordinates
+  
+  dic = {
+  "task": task,
+  "data": {}, 
+  "answer": answer}
+  return dic
+
+
 def generateSLU(x_count, equation_count, min_value, max_value):
   a = np.random.randint(min_value, max_value, size=(equation_count, x_count))
   while (np.linalg.det(a) == 0):
