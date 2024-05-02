@@ -125,9 +125,25 @@ def rational_plane(mt):
     z = f'\\frac{number_convert(cz.p)}{number_convert(cz.q)}'
     return f"{x}, {y}, {z}"
 
-
 def point_answer(point, round = 0):
     return f"({{1:NUMERICAL:={point[0]}:0.{round}#OK}}, {{1:NUMERICAL:={point[1]}:0.{round}#OK}})"
 
+def sqrt_view_answer(answer):
+    if answer.is_Integer:
+        return number_convert(answer)
+    if answer.is_Rational:
+        return rational_view(answer)
+    if answer.is_Pow:
+        return sqrt_view(answer.args[0])
+    if answer.is_Mul:
+        if answer.args[0].is_Integer:
+            return f'{number_convert(answer.args[0])} * {sqrt_view(answer.args[1])}'
+        else:
+            return f'{rational_view(answer.args[0])} * {sqrt_view(answer.args[1])}'
 
 
+def rational_view(number):
+    return f'\\frac{number_convert(number.p)}{number_convert(number.q)}'
+
+def sqrt_view(sqr):
+    return f'\\sqrt{number_convert(sqr)}'

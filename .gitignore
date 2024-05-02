@@ -3,3 +3,4 @@ __pycache__/
 .env-non-dev
 venv/
 .env-host
+graph/

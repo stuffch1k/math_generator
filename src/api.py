@@ -20,16 +20,6 @@ async def start_db():
         if topic not in names:
             await Topic.objects.create(name = topic)
 
-@router.get("/tasks/", response_model=List[Task])
-async def get_items():
-    tasks = await Task.objects.all()
-    return tasks
-
-@router.get("/topic_task", response_model=List[Task])
-async def get_topic_tasks(topic_id:int):
-    tasks = await Task.objects.filter(topic=topic_id).all()
-    return tasks
-
 @router.post("/import_params")
 async def return_query(tasks: List[TopicWithCompexity]):
     return tasks
