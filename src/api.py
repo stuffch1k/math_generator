@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, HTTPException
 from typing import List
 from generators import *
 from models.topics import *
@@ -7,6 +7,8 @@ from moodle_export.moodle_converter import *
 from models.categories import TEST, category_count
 import json
 import os
+from models.generator_id import GENERATOR_UUID, GENERATOR_TOPIC
+import uuid
 
 router = APIRouter()
 
@@ -103,6 +105,31 @@ async def converter():
         pass
     with open(path_cats, 'wb'):
         pass
+    return Response(content = result, media_type="application/xml")
+
+@router.post("/get_tasks")
+async def get_uuid_task(tasks: List[UUIDGenerator]):
+    problem = []
+    for task in tasks:
+        generator_id = str(task.uuid)
+        if generator_id not in GENERATOR_UUID.keys():
+            raise HTTPException(
+                status_code=400,
+                detail="Require UUID doen't exist"
+                )
+        topic = next(filter(lambda key: generator_id in GENERATOR_TOPIC[key], GENERATOR_TOPIC), None)
+        if task.topic != topic and task.topic!="None" and task.topic:
+            raise HTTPException(
+                    status_code=300,
+                    detail="Provided topic doesn't match generator topic"
+                )
+        for _ in range(task.count):
+            problem.append(GENERATOR_UUID[generator_id](topic))
+    return problem
+
+@router.post("/get_convert")
+async def get_xml_tasks(tasks: List[Answer], topics: dict):
+    result = convert_to_moodle(tasks, topics)
     return Response(content = result, media_type="application/xml")
 
 

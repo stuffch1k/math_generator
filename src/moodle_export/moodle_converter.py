@@ -42,11 +42,11 @@ def convert_to_moodle(test, category_count):
 def create_task(test, category_name, catetegory_count):
     tasks = []
     for task in test:
-        if task["topic"] == category_name:
+        if task.topic == category_name:
             tasks.append({
             'id': str(np.random.randint(1000000, 9999999)),
-            'name': task["topic"] + f' - вариант {str(np.random.randint(1, 9999))}',
-            'text': task['moodle_task']
+            'name': task.topic + f' - вариант {str(np.random.randint(1, 9999))}',
+            'text': task.moodle_task
             })
     return tasks
         

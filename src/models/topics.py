@@ -60,6 +60,7 @@ class ExtendedEnum(Enum):
         return list(map(lambda c: c.value, cls))
 
 class First_Topic(str, ExtendedEnum):
+    none = "None"
     matrix = "Матрицы"
     determinant = "Определители"
     inbertible_matrix = "Обратная матрица"
