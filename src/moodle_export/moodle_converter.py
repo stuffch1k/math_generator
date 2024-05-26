@@ -17,14 +17,14 @@ env = Environment(
 test_category_name = 'Контрольная по линейной алгебре'
 
 
-def convert_to_moodle(test, category_count):
+def convert_to_moodle(test, category_count, v=1):
     templates = []
     common_category = f"Тест по алгебре вар.{randint(1,100)}"
     for category_name, topic_count in category_count.items():
         if topic_count != 0:
             template = env.get_template('template_category.xml')
             rendered_test_category = template.render(category_name = common_category+"/"+category_name)
-            tasks = create_task(test, category_name, category_count)
+            tasks = create_task(test, category_name, category_count, v)
             template = env.get_template('template_question_cloze.xml')
             rendered_tasks = template.render(tasks = tasks)
             template = env.get_template('template_test.xml')
@@ -39,14 +39,20 @@ def convert_to_moodle(test, category_count):
     
     
 
-def create_task(test, category_name, catetegory_count):
+def create_task(test, category_name, catetegory_count, v=1):
     tasks = []
     for task in test:
-        if task.topic == category_name:
+        if v==1:
+            topic = task["topic"]
+            text = task["moodle_task"]
+        else:
+            topic = task.topic
+            text = task.moodle_task
+        if topic == category_name:
             tasks.append({
             'id': str(np.random.randint(1000000, 9999999)),
-            'name': task.topic + f' - вариант {str(np.random.randint(1, 9999))}',
-            'text': task.moodle_task
+            'name': topic + f' - вариант {str(np.random.randint(1, 9999))}',
+            'text': text
             })
     return tasks
         

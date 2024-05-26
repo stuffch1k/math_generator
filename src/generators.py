@@ -21,27 +21,21 @@ async def create_db_task(topic_schema, task):
 async def GenerateMatrixTask(topic: TopicForGenerator):
     if topic.complexity == 0:
       task = GenerateMatrixSizeTask(topic.title)
-      await create_db_task(topic, task)
       return task
     elif topic.complexity == 1:
       task = GenerateMatrixElementTask(topic.title)
-      # await create_db_task(topic, task)
       return task
     elif topic.complexity == 2:
       task = GenerateMatrixSummTask(topic.title)
-      # await create_db_task(topic, task)
       return task
     elif topic.complexity == 3:
       task = GenerateMatrixNumberMultiplicationTask(topic.title)
-      # await create_db_task(topic, task)
       return task
     elif topic.complexity == 4:
       task = GenerateMatrixTransposeTask(topic.title)
-      # await create_db_task(topic, task)
       return task
     elif topic.complexity == 5:
       task = GenerateMatrixMultiplicationTask(topic.title)
-      # await create_db_task(topic, task)
       return task
 
 
@@ -52,11 +46,9 @@ async def GenerateDeterminantTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
         task = GenerateFindDeterminantTask(topic.title)
-        # await create_db_task(topic, task)
         return task
     case 1:
         task = GenerateDeterminantEquationTask(topic.title)
-        # await create_db_task(topic, task)
         return task
      
 
@@ -67,11 +59,9 @@ async def GenerateReverseMatrixTask(topic: TopicForGenerator):
   match topic.complexity:
      case 0:
         task = GenerateFindReverseMatrixTask(topic.title)
-        # await create_db_task(topic, task)
         return task
      case 1:
         task = GenerateFindReversedMatrixElementTask(topic.title)
-        # await create_db_task(topic, task)
         return task
      
 
@@ -82,7 +72,6 @@ async def GenerateMatrixRankTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
       task = GenerateFindMatrixRankTask(topic.title)
-      await create_db_task(topic, task)
       return task
     
 
@@ -93,11 +82,9 @@ async def GenerateMatrixEquationTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
       task = GenerateSolveMatrixEquationTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 1:
       task = GenerateSolveDoubleMatrixEquationTask(topic.title)
-      await create_db_task(topic, task)
       return task
 
 
@@ -108,7 +95,6 @@ async def GenerateLinearEquationTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
       task = GenerateSolveLinearEquationTask(topic.title)
-      await create_db_task(topic, task)
       return task
 
 
@@ -119,27 +105,21 @@ async def GenerateVectorTask(topic: TopicForGenerator):
   match topic.complexity:
     case 0:
       task = GenerateScalarVectorMultiplicationTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 1:
       task = GenerateVectorVectorMultiplicationTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 2:
       task = GenerateVectorVectorMultiplicationModuleTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 3:
       task = GenerateMixedVectorMultiplicationTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 4:
       task = GenerateIsCollinearVectorsTask(topic.title)
-      await create_db_task(topic, task)
       return task
     case 5:
       task = GenerateIsComplanarVectorsTask(topic.title)
-      await create_db_task(topic, task)
       return task
 
 
@@ -159,7 +139,7 @@ async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
     case 4:
       task = GenerateFindDicstanceFromLineToPointTask(topic.title)
 
-  await create_db_task(topic, task)
+
   return task
 
 '''
@@ -180,6 +160,6 @@ async def GenerateLineAndPlaneInSpaceTask(topic: TopicForGenerator):
     case 5:
       task = GeneratePointProjectionOnPlainTask(topic.title)
 
-  await create_db_task(topic, task)
+
   return task
     

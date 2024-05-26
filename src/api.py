@@ -129,7 +129,7 @@ async def get_uuid_task(tasks: List[UUIDGenerator]):
 
 @router.post("/get_convert")
 async def get_xml_tasks(tasks: List[Answer], topics: dict):
-    result = convert_to_moodle(tasks, topics)
+    result = convert_to_moodle(tasks, topics, 2)
     return Response(content = result, media_type="application/xml")
 
 

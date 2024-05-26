@@ -16,11 +16,10 @@ class TopicForGenerator(BaseModel):
 
 class UUIDGenerator(BaseModel):
     uuid: UUID
-    complexity: int = 1
     count: int = 1
     topic: First_Topic = None
 
-class Answer(BaseModel): #небезопасно
+class Answer(BaseModel): #небезопасно, убрать экстру когда соединим фронт
     topic: First_Topic
     moodle_task: str
     class Config:
