@@ -3,9 +3,7 @@ services:
   app:
     build:
       context: .
-    env_file:
-      - .env-non-dev
+      dockerfile: Dockerfile
     container_name: fastapi_app
-    command: ["/generator_app/docker/app.sh"]
     ports:
       - 9999:8000

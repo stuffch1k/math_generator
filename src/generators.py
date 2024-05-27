@@ -1,4 +1,3 @@
-from models.model import *
 from schemas import *
 import numpy as np
 import sympy as sp
@@ -8,11 +7,11 @@ from math import *
 from moodle_export.converter import *
 from task_generator import *
 
-async def create_db_task(topic_schema, task):
-  topic_db = await Topic.objects.get(name = topic_schema.title)
-  await Task.objects.create(topic=topic_db.id, 
-                            complexity = topic_schema.complexity, 
-                            text = str(task["data"]), answer = str(task["answer"])) 
+# async def create_db_task(topic_schema, task):
+#   topic_db = await Topic.objects.get(name = topic_schema.title)
+#   await Task.objects.create(topic=topic_db.id, 
+#                             complexity = topic_schema.complexity, 
+#                             text = str(task["data"]), answer = str(task["answer"])) 
 
 
 '''

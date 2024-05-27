@@ -2,7 +2,6 @@ from fastapi import APIRouter, Response, HTTPException
 from typing import List
 from generators import *
 from models.topics import *
-from models.model import *
 from moodle_export.moodle_converter import *
 from models.categories import TEST, category_count
 import json
@@ -12,20 +11,9 @@ import uuid
 
 router = APIRouter()
 
-# заполнение таблицы topics
-# потом вынести в метод при запуске
-@router.post("/start", summary="Create topics in db", description="Execute to insert Topics")
-async def start_db():
-    topic_db =await  Topic.objects.all()
-    names = [x.name for x in topic_db]
-    for topic in First_Topic.list():
-        if topic not in names:
-            await Topic.objects.create(name = topic)
-
 @router.post("/import_params")
 async def return_query(tasks: List[TopicWithCompexity]):
     return tasks
-
 
 @router.post("/task")
 async def create_tasks(tasks: List[TopicWithCompexity]):
