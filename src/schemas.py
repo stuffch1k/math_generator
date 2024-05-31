@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Any
+from typing import Optional, Any, Union
 from uuid import UUID
 from models.topics import *
 
@@ -15,12 +15,10 @@ class TopicForGenerator(BaseModel):
     complexity: int 
 
 class UUIDGenerator(BaseModel):
-    uuid: UUID
+    uuid: UUID 
     count: int = 1
-    topic: First_Topic = None
+    topic: Union[First_Topic, str] = None
 
-class Answer(BaseModel): #небезопасно, убрать экстру когда соединим фронт
-    topic: First_Topic
+class Answer(BaseModel): 
+    topic: Union[First_Topic, str]
     moodle_task: str
-    class Config:
-        extra = "allow"

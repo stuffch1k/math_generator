@@ -3,7 +3,7 @@ from typing import List
 from generators import *
 from models.topics import *
 from moodle_export.moodle_converter import *
-from models.categories import TEST, category_count
+from models.categories import TEST, category_count, cat_count
 import json
 import os
 from models.generator_id import GENERATOR_UUID, GENERATOR_TOPIC
@@ -106,13 +106,25 @@ async def get_uuid_task(tasks: List[UUIDGenerator]):
                 detail="Require UUID doen't exist"
                 )
         topic = next(filter(lambda key: generator_id in GENERATOR_TOPIC[key], GENERATOR_TOPIC), None)
-        if task.topic != topic and task.topic!="None" and task.topic:
+        topics = GENERATOR_TOPIC.keys()
+        # указанная тема не соотвествует теме генератора
+        if (task.topic in topics) and (task.topic!=topic):
             raise HTTPException(
                     status_code=300,
-                    detail="Provided topic doesn't match generator topic"
+                    detail=f"Provided topic doesn't match generator topic. The actual topic is {topic}"
                 )
+        # тема не указана - по дефолту даем тему генератора
+        if task.topic == None or task.topic == "None":
+            task.topic = topic
+        
+        # if task.topic != topic and task.topic!="None" and task.topic:
+        #     raise HTTPException(
+        #             status_code=300,
+        #             detail="Provided topic doesn't match generator topic"
+        #         )
+        
         for _ in range(task.count):
-            problem.append(GENERATOR_UUID[generator_id](topic))
+            problem.append(GENERATOR_UUID[generator_id](task.topic))
     return problem
 
 @router.post("/get_convert")
