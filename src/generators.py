@@ -123,7 +123,7 @@ async def GenerateVectorTask(topic: TopicForGenerator):
 
 
 '''
-Генерация задач про прямые на плоскости
+Генерация задач Прямая на плоскости
 '''    
 async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   match topic.complexity:
@@ -142,7 +142,7 @@ async def GenerateVectorOnPlaneTask(topic: TopicForGenerator):
   return task
 
 '''
-Генерация задач про прямые и плоскости в пространстве
+Генерация задач Прямая и плоскость в пространстве
 '''
 async def GenerateLineAndPlaneInSpaceTask(topic: TopicForGenerator):
   match topic.complexity:
