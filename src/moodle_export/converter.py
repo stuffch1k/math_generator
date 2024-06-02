@@ -120,9 +120,9 @@ def rational_plane(mt):
     by=mt[1]
     cz=mt[2]
 
-    x = f'\\frac{number_convert(ax.p)}{number_convert(ax.q)}'
-    y = f'\\frac{number_convert(by.p)}{number_convert(by.q)}'
-    z = f'\\frac{number_convert(cz.p)}{number_convert(cz.q)}'
+    x = f'{number_convert(ax.p)} / {number_convert(ax.q)}'
+    y = f'{number_convert(by.p)} / {number_convert(by.q)}'
+    z = f'{number_convert(cz.p)} / {number_convert(cz.q)}'
     return f"{x}, {y}, {z}"
 
 def point_answer(point, round = 0):
@@ -143,7 +143,7 @@ def sqrt_view_answer(answer):
 
 
 def rational_view(number):
-    return f'\\frac{number_convert(number.p)}{number_convert(number.q)}'
+    return f'{number_convert(number.p)} / {number_convert(number.q)}'
 
 def sqrt_view(sqr):
-    return f'\\sqrt{number_convert(sqr)}'
+    return f'√{number_convert(sqr._args[0])}'

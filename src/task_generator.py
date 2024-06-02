@@ -454,7 +454,7 @@ def GenerateFindLineEquationByPointsTask(topic):
   task = f"Составить уравнение прямой, проходящей через две точки:  A({A1},{A2})  и  B({B1},{B2})"
   answer = L.equation()
   moodle_task = f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
   "topic": topic,
   "task": task,
@@ -474,7 +474,7 @@ def GenerateFindParalelLineEquationByEquationTask(topic):
   task = f"Известно, что прямая  L  проходит через начало координат и точку  B({B1},{B2}). Записать уравнение прямой, проходящей через точку  A({A1},{A2})  параллельно прямой  L"
   answer = L2.equation()
   moodle_task = f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
     "topic":topic,
     "task": task,
@@ -496,7 +496,7 @@ def GenerateFindParalelLineEquationByPointsTask(topic):
   task = f"Составить уравнение прямой, проходящей через точку А({A1},{A2}), параллельную прямой BC, если B({B1},{B2}), C({C1},{C2})"
   answer = L2.equation()
   moodle_task = f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
   "topic":topic,
   "task": task,
@@ -538,10 +538,10 @@ def GenerateFindDicstanceFromLineToPointTask(topic):
   C = sp.Point(C1, C2)
   L1 = sp.Line((A1, A2), (B1, B2))
 
-  task = f"Известно, что прямая L проходит через точки A({A1},{A2}) и B({B1},{B2}). Из точки C({C1},{C2}) на прямую L опущен перпендикуляр, который касается её в точке D. Определить длину отрезка CD. Пример формы ответа: 3*sqrt(26)/13"
+  task = f"Известно, что прямая L проходит через точки A({A1},{A2}) и B({B1},{B2}). Из точки C({C1},{C2}) на прямую L опущен перпендикуляр, который касается её в точке D. Определить длину отрезка CD. Пример формы ответа: 3/13 * \( \sqrt{{26}} \)"
   answer = L1.perpendicular_segment(C).length
-  moodle_task=f"<p>{task}</p>" + \
-  f"<p>Ответ: \( {sqrt_view_answer(answer)} \)</p>"
+  moodle_task=f"<p>{task} </p>" + \
+  f"<p>Ответ: {sqrt_view_answer(answer)} </p>"
   dic = {
   "topic":topic,
   "task": task,
@@ -558,11 +558,11 @@ def GenerateFindPlaneEquationByThreePointsTask(topic):
 
   alpha = sp.Plane(sp.Point3D(A1, A2, A3), sp.Point3D(B1, B2, B3), sp.Point3D(C1, C2, C3))
 
-  task = f"Записать уравнение плоскости, проходящей через точки A({A1},{A2},{A3}), B({B1},{B2},{B3}), C({C1},{C2},{C3}). Пример формы записи ответа: 38*x - 136*y - 126*z - 574"
+  task = f"Записать уравнение плоскости, проходящей через точки A({A1},{A2},{A3}), B({B1},{B2},{B3}), C({C1},{C2},{C3}). Пример формы записи ответа: 38*x - 136*y - 126*z - 574 = 0"
   answer = alpha.equation()
 
   moodle_task=f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
   "topic": topic,
@@ -579,11 +579,11 @@ def GenerateFindPlaneEquationByPointAndNormalVector(topic):
 
   alpha = sp.Plane(sp.Point3D(A1, A2, A3), normal_vector =(B1, B2, B3))
 
-  task = f"Записать уравнение плоскости a, которая проходит через точку M({A1},{A2},{A3}) и перпендикулярна вектору n =({B1},{B2},{B3}). Пример записи ответа: -3*x - 8*y - 8*z + 85"
+  task = f"Записать уравнение плоскости a, которая проходит через точку M({A1},{A2},{A3}) и перпендикулярна вектору n =({B1},{B2},{B3}). Пример записи ответа: -3*x - 8*y - 8*z + 85 = 0"
   answer = alpha.equation()
 
   moodle_task=f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
   dic = {
   "topic": topic,
   "task": task,
@@ -606,7 +606,7 @@ def GenerateFindParallelPlaneEquationTask(topic):
   answer = parallelPlane.equation()
 
   moodle_task=f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
     "topic":topic,
@@ -632,7 +632,7 @@ def GenerateFindOrtPlaneEquationTask(topic):
   ortPlane = alpha.perpendicular_plane(A,B)
   answer = ortPlane.equation()
   moodle_task=f"<p>{task}</p>" + \
-  f"<p>Уравнение: {convert_plane_equation(answer.args)}</p>"
+  f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
   "topic":topic,
