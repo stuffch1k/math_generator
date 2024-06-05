@@ -16,7 +16,7 @@ GENERATOR_UUID = {
     '7ae48f49-aecf-4006-c95d-af63a3260eb0': GenerateSolveMatrixEquationTask,
     '6463aa54-da58-4751-8578-72ab9670ec74': GenerateSolveDoubleMatrixEquationTask,
     'd53761d3-4270-4af4-5f21-b7caaa4efb43': GenerateSolveLinearEquationTask,
-    'c4703c4b-e322-4b5c-7c6c-d1652ce84bd8': GenerateScalarVectorMultiplicationTask,
+    '0afd0412-e7ac-4366-6758-d57a0727fb38': GenerateScalarVectorMultiplicationTask,
     'aa371420-8767-4dd4-1713-2968822580b0': GenerateVectorVectorMultiplicationTask,
     '6c94bbe5-2391-46dd-66ee-68ed3286d073': GenerateVectorVectorMultiplicationModuleTask,
     '22a73886-a42a-475c-ba43-46cd64cadef8': GenerateMixedVectorMultiplicationTask,
