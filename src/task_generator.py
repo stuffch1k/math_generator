@@ -6,7 +6,7 @@ from math import *
 from moodle_export.converter import *
 import json
 
-def GenerateMatrixSizeTask(topic):
+def GenerateMatrixSizeTask():
   matrix = np.random.randint(10, size=(4, 4))
   answer = matrix.shape
   task = "Определите размер матрицы" 
@@ -14,7 +14,6 @@ def GenerateMatrixSizeTask(topic):
   f"<p> {create_matrix_ctask(matrix.tolist())}</p>" + \
   "<p> {1:NUMERICAL:=" + f'{answer[0]}' + ":0.0#OK} X {1:NUMERICAL:=" + f'{answer[1]}' + ":0.0#OK} </p>"
   dic = {
-    "topic":topic,
      "task": task,
      "data": matrix.tolist(),
      "answer": answer,
@@ -22,7 +21,7 @@ def GenerateMatrixSizeTask(topic):
   return dic
 
 
-def GenerateMatrixElementTask(topic):
+def GenerateMatrixElementTask():
   matrix = np.random.randint(10, size=(4, 4))
   row_count = matrix.shape[0]
   columns_count = matrix.shape[1]
@@ -35,7 +34,6 @@ def GenerateMatrixElementTask(topic):
   f"<p> {create_matrix_ctask(matrix.tolist())}</p>" + \
   "<p> {1:NUMERICAL:=" + f'{answer.item()}' + ":0.0#OK}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {
        "matrix":matrix.tolist(),
@@ -46,7 +44,7 @@ def GenerateMatrixElementTask(topic):
   return dic
 
 
-def GenerateMatrixSummTask(topic):
+def GenerateMatrixSummTask():
   first_matrix = np.random.randint(10, size=(3, 3))
   second_matrix = np.random.randint(10, size=(3, 3))
   answer = first_matrix + second_matrix
@@ -57,14 +55,13 @@ def GenerateMatrixSummTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1])}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2])}</p>" 
   dic = {
-    "topic":topic,
      "task": task,
      "data": {"first" : first_matrix.tolist(), "second" : second_matrix.tolist()},
      "answer": answer.tolist(),
      "moodle_task": moodle_task}
   return dic
 
-def GenerateMatrixNumberMultiplicationTask(topic):
+def GenerateMatrixNumberMultiplicationTask():
   matrix = np.random.randint(-9, 10, size=(3,3))
   number = np.random.randint(1, 10, size=(1,1))[0][0]
   answer = matrix * number
@@ -75,14 +72,13 @@ def GenerateMatrixNumberMultiplicationTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1])}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2])}</p>" 
   dic = {
-    "topic":topic,
     "task":task,
     "data": {"matrix":matrix.tolist(), "number":int(number)},
     "answer": answer.tolist(),
     "moodle_task":moodle_task}
   return dic
 
-def GenerateMatrixTransposeTask(topic):
+def GenerateMatrixTransposeTask():
   matrix = np.random.randint(10, size=(3,3))
   answer = matrix.transpose()
   task = "Найдите транспонированную матрицу" #сделать запрос к бд
@@ -93,14 +89,13 @@ def GenerateMatrixTransposeTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1])}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2])}</p>" 
   dic = {
-    "topic":topic,
      "task":task,
      "data": matrix.tolist(),
      "answer": answer.tolist(),
      "moodle_task":moodle_task}
   return dic
 
-def GenerateMatrixMultiplicationTask(topic):
+def GenerateMatrixMultiplicationTask():
   matrix1 = np.random.randint(-9, 10, size=(3,3))
   matrix2 = np.random.randint(-9, 10, size=(3,3))
   answer = np.dot(matrix1, matrix2)
@@ -111,7 +106,6 @@ def GenerateMatrixMultiplicationTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1])}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2])}</p>" 
   dic = {
-    "topic":topic,
     "task":task,
     "data": {"matrix1":matrix1.tolist(), "matrix2":matrix2.tolist()},
     "answer": answer.tolist(),
@@ -119,7 +113,7 @@ def GenerateMatrixMultiplicationTask(topic):
   return dic
 
 
-def GenerateFindDeterminantTask(topic):
+def GenerateFindDeterminantTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   answer = np.around(np.linalg.det(matrix))
   task = "Вычислите определитель матрицы А (при необходимости округлите до целого числа)" #Сделать запрос к базе
@@ -127,7 +121,6 @@ def GenerateFindDeterminantTask(topic):
   f"<p> {create_matrix_ctask(matrix.tolist())}</p>" + \
   f"<p> Определитель: {number_convert(int(answer))}</p>"
   dic = {
-    "topic":topic,
     "task":task,
     "data": matrix.tolist(),
     "answer": answer, 
@@ -135,7 +128,7 @@ def GenerateFindDeterminantTask(topic):
   return dic
 
 
-def GenerateDeterminantEquationTask(topic):
+def GenerateDeterminantEquationTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   determinant = np.around(np.linalg.det(matrix))
 
@@ -153,7 +146,6 @@ def GenerateDeterminantEquationTask(topic):
   f"<p> X =  {number_convert(int(random_elem))}</p>"
   
   dic = {
-    "topic":topic,
     "task":task,
     "data": {"matrix": new_matrix.tolist(), "determinant": determinant},
     "answer": int(random_elem),
@@ -161,7 +153,7 @@ def GenerateDeterminantEquationTask(topic):
   return dic
 
 
-def GenerateFindReverseMatrixTask(topic):
+def GenerateFindReverseMatrixTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   answer = np.around(np.linalg.inv(matrix), 1)
   task = "Найдите обратную матрицу (округлить до 3х знаков после запятой)" #Запрос к бд
@@ -173,7 +165,6 @@ def GenerateFindReverseMatrixTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[2], 3)}</p>" 
 
   dic = {
-    "topic":topic,
     "task":task,
     "data": matrix.tolist(),
     "answer": answer.tolist(),
@@ -181,7 +172,7 @@ def GenerateFindReverseMatrixTask(topic):
   return dic  
 
 
-def GenerateFindReversedMatrixElementTask(topic):
+def GenerateFindReversedMatrixElementTask():
   matrix = generateNonsingularMatrix(-9, 10, 3, 3)
   reversed_matrix = np.around(np.linalg.inv(matrix), 1)
 
@@ -198,7 +189,6 @@ def GenerateFindReversedMatrixElementTask(topic):
   f"<p>{create_matrix_ctask(matrix.tolist())}</p>" + \
   f"<p>B({row_index, column_index}) = {number_convert(random_elem, 3)}</p>"
   dic = {
-    "topic":topic,
     "task":task,
     "data": {"matrix": matrix.tolist(), "rowIndex": int(row_index), "columnIndex": int(column_index)},
     "answer": random_elem.item(),
@@ -207,7 +197,7 @@ def GenerateFindReversedMatrixElementTask(topic):
   return dic
 
 
-def GenerateFindMatrixRankTask(topic):
+def GenerateFindMatrixRankTask():
   switch = np.random.randint(0, 2, size=(1,1))[0][0]
   task = "Определите ранг матрицы" # Сделать запрос к бд
 
@@ -230,7 +220,6 @@ def GenerateFindMatrixRankTask(topic):
   f"<p>{create_matrix_ctask(matrix.tolist())}</p>" + \
   f"<p>Ранг = {number_convert(answer.item())}</p>"
   dic = {
-  "topic":topic,
   "task":task,
   "data": matrix.tolist(),
   "answer": answer.item(),
@@ -239,7 +228,7 @@ def GenerateFindMatrixRankTask(topic):
   return dic
 
 
-def GenerateSolveMatrixEquationTask(topic):
+def GenerateSolveMatrixEquationTask():
   a = generateNonsingularMatrix(-9, 10, 3, 3)
   b = generateNonsingularMatrix(-9, 10, 3, 3)
   a1 = np.linalg.inv(a)
@@ -253,7 +242,6 @@ def GenerateSolveMatrixEquationTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1], 3)}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2], 3)}</p>"
   dic = {
-  "topic":topic,
   "task":task,
   "data": {"A": a.tolist(), "B": b.tolist()},
   "answer": answer.tolist(),
@@ -261,7 +249,7 @@ def GenerateSolveMatrixEquationTask(topic):
   return dic
 
 
-def GenerateSolveDoubleMatrixEquationTask(topic):
+def GenerateSolveDoubleMatrixEquationTask():
   task = "Решите уравнение вида A·X·B = C. Ответ округлите до 3х знаков после запятой"
   a = generateNonsingularMatrix(-9, 10, 3, 3)
   b = generateNonsingularMatrix(-9, 10, 3, 3)
@@ -279,7 +267,6 @@ def GenerateSolveDoubleMatrixEquationTask(topic):
   f"<p> {matrix_line_convert(answer.tolist()[1], 3)}</p>" + \
   f"<p> {matrix_line_convert(answer.tolist()[2], 3)}</p>"
   dic = {
-  "topic":topic,
   "task":task,
   "data": {"A": a.tolist(), "B": b.tolist(), "C": c.tolist()},
   "answer": answer.tolist(), 
@@ -287,7 +274,7 @@ def GenerateSolveDoubleMatrixEquationTask(topic):
   return dic
 
 
-def GenerateSolveLinearEquationTask(topic):
+def GenerateSolveLinearEquationTask():
   a, b, x = generateSLU(3, 3, -5, 20)
   first_equation = f"{a[0][0]}*x + {a[0][1]}*y + {a[0][2]}*z = {b[0].item()}"
   second_equation = f"{a[1][0]}*x + {a[1][1]}*y + {a[1][2]}*z = {b[1].item()}"
@@ -304,7 +291,6 @@ def GenerateSolveLinearEquationTask(topic):
   "<p> y={1:NUMERICAL:=" + f'{answer[1][0]}' + ":0.1#OK} </p>" + \
   "<p> z={1:NUMERICAL:=" + f'{answer[2][0]}' + ":0.1#OK} </p>"
   dic = {
-  "topic":topic,
   "task":task,
   "data": {"first_equation": first_equation, "second_equation": second_equation, "third_equation" : third_equation},
   "answer": answer,
@@ -312,7 +298,7 @@ def GenerateSolveLinearEquationTask(topic):
   return dic
 
 
-def GenerateScalarVectorMultiplicationTask(topic):
+def GenerateScalarVectorMultiplicationTask():
   a = np.random.randint(-20, 21, size=(1,3))[0]
   b = np.random.randint(-20, 21, size=(1,3))[0]
   task = f"Вычислите скалярное произведение векторов {vector_name_convert('a')} и {vector_name_convert('b')}."
@@ -322,7 +308,6 @@ def GenerateScalarVectorMultiplicationTask(topic):
   f"<p>{vector_convert('b', b.tolist())}</p>" + \
   f"<p>{vector_scalar_convert(answer.item())}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": a.tolist(), "B": b.tolist()},
     "answer": answer.item(),
@@ -330,7 +315,7 @@ def GenerateScalarVectorMultiplicationTask(topic):
   return dic
 
 
-def GenerateVectorVectorMultiplicationTask(topic):
+def GenerateVectorVectorMultiplicationTask():
   a = np.random.randint(-20, 21, size=(1,3))
   b = np.random.randint(-20, 21, size=(1,3))
 
@@ -341,7 +326,6 @@ def GenerateVectorVectorMultiplicationTask(topic):
   f"<p>{vector_convert('b', b.tolist()[0])}</p>" + \
   f"<p>{vector_vector_convert(answer)}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": a.tolist()[0], "B": b.tolist()[0]},
     "answer": answer,
@@ -349,8 +333,8 @@ def GenerateVectorVectorMultiplicationTask(topic):
   return dic
 
 
-def GenerateVectorVectorMultiplicationModuleTask(topic):
-  temp = GenerateVectorVectorMultiplicationTask(topic)
+def GenerateVectorVectorMultiplicationModuleTask():
+  temp = GenerateVectorVectorMultiplicationTask()
   a = temp["data"]["A"]
   b = temp["data"]["B"]
   vector = np.array(temp["answer"])
@@ -361,7 +345,6 @@ def GenerateVectorVectorMultiplicationModuleTask(topic):
   f"<p>{vector_convert('b', b)}</p>" + \
   f"<p>{vector_module('c', answer.item())}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": a, "B": b},
     "answer": answer.tolist(),
@@ -369,7 +352,7 @@ def GenerateVectorVectorMultiplicationModuleTask(topic):
   return dic
 
 
-def GenerateMixedVectorMultiplicationTask(topic):
+def GenerateMixedVectorMultiplicationTask():
   a = np.random.randint(-20, 21, size=(1,3))
   b = np.random.randint(-20, 21, size=(1,3))
   c = np.random.randint(-20, 21, size=(1,3))
@@ -383,7 +366,6 @@ def GenerateMixedVectorMultiplicationTask(topic):
   f"<p>{vector_convert('c', c.tolist()[0])}</p>" + \
   f"<p>{mixed_mult(int(answer))}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": a.tolist()[0], "B": b.tolist()[0], "C": c.tolist()[0]},
     "answer": answer,
@@ -391,7 +373,7 @@ def GenerateMixedVectorMultiplicationTask(topic):
   return dic
 
 
-def GenerateIsCollinearVectorsTask(topic):
+def GenerateIsCollinearVectorsTask():
   switch = np.random.randint(0, 2, size=(1,1))[0][0]
 
   if switch == 0:
@@ -411,7 +393,6 @@ def GenerateIsCollinearVectorsTask(topic):
   f"<p>{vector_convert('b', b.tolist())}</p>" + \
   f"<p>{true_false_cloze(answer)}</p>" 
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": a.tolist(), "B": b.tolist()},
     "answer": answer,
@@ -419,7 +400,7 @@ def GenerateIsCollinearVectorsTask(topic):
   return dic
 
 
-def GenerateIsComplanarVectorsTask(topic):
+def GenerateIsComplanarVectorsTask():
   switch = np.random.randint(0, 2, size=(1,1))[0][0]
 
   if switch == 0:
@@ -435,7 +416,6 @@ def GenerateIsComplanarVectorsTask(topic):
   f"<p>{vector_convert('c', data[2].tolist())}</p>" + \
   f"<p>{true_false_cloze(answer)}</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {"A": data[0].tolist(), "B":data[1].tolist(), "C": data[2].tolist()},
     "answer": answer,
@@ -444,7 +424,7 @@ def GenerateIsComplanarVectorsTask(topic):
   return dic
 
 
-def GenerateFindLineEquationByPointsTask(topic):
+def GenerateFindLineEquationByPointsTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
 
@@ -456,7 +436,6 @@ def GenerateFindLineEquationByPointsTask(topic):
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
-  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -464,7 +443,7 @@ def GenerateFindLineEquationByPointsTask(topic):
   return dic
 
 
-def GenerateFindParalelLineEquationByEquationTask(topic):
+def GenerateFindParalelLineEquationByEquationTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   A = sp.Point(A1,A2)
   B1,B2 = randint(-9, 9),randint(-9, 9)
@@ -476,7 +455,6 @@ def GenerateFindParalelLineEquationByEquationTask(topic):
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
-    "topic":topic,
     "task": task,
     "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в таске.
     "answer": str(answer),
@@ -485,7 +463,7 @@ def GenerateFindParalelLineEquationByEquationTask(topic):
   return dic
 
 
-def GenerateFindParalelLineEquationByPointsTask(topic):
+def GenerateFindParalelLineEquationByPointsTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)
@@ -498,7 +476,6 @@ def GenerateFindParalelLineEquationByPointsTask(topic):
   moodle_task = f"<p>{task}</p>" + \
   f"<p>Уравнение: {convert_equation(answer.args)} = 0</p>"
   dic = {
-  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -506,7 +483,7 @@ def GenerateFindParalelLineEquationByPointsTask(topic):
   return dic
 
 
-def GenerateFindCrossPointOfTwoLinesTask(topic):
+def GenerateFindCrossPointOfTwoLinesTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)
@@ -520,7 +497,6 @@ def GenerateFindCrossPointOfTwoLinesTask(topic):
   moodle_task=f"<p>{task}</p>" + \
   f"<p>Точка пересечения: ({sqrt_view_answer(answer[0])}, {sqrt_view_answer(answer[1])})</p>"
   dic = {
-  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -530,7 +506,7 @@ def GenerateFindCrossPointOfTwoLinesTask(topic):
   return dic
 
 
-def GenerateFindDicstanceFromLineToPointTask(topic):
+def GenerateFindDicstanceFromLineToPointTask():
   A1,A2 = randint(-9, 9),randint(-9, 9)
   B1,B2 = randint(-9, 9),randint(-9, 9)
   C1,C2 = randint(-9, 9),randint(-9, 9)
@@ -543,7 +519,6 @@ def GenerateFindDicstanceFromLineToPointTask(topic):
   moodle_task=f"<p>{task} </p>" + \
   f"<p>Ответ: {sqrt_view_answer(answer)} </p>"
   dic = {
-  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -551,7 +526,7 @@ def GenerateFindDicstanceFromLineToPointTask(topic):
   return dic
 
 
-def GenerateFindPlaneEquationByThreePointsTask(topic):
+def GenerateFindPlaneEquationByThreePointsTask():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   C1,C2,C3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -565,7 +540,6 @@ def GenerateFindPlaneEquationByThreePointsTask(topic):
   f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
-  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -573,7 +547,7 @@ def GenerateFindPlaneEquationByThreePointsTask(topic):
   return dic
 
 
-def GenerateFindPlaneEquationByPointAndNormalVector(topic):
+def GenerateFindPlaneEquationByPointAndNormalVector():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
 
@@ -585,7 +559,6 @@ def GenerateFindPlaneEquationByPointAndNormalVector(topic):
   moodle_task=f"<p>{task}</p>" + \
   f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
   dic = {
-  "topic": topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -593,7 +566,7 @@ def GenerateFindPlaneEquationByPointAndNormalVector(topic):
   return dic
 
 
-def GenerateFindParallelPlaneEquationTask(topic):
+def GenerateFindParallelPlaneEquationTask():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -609,7 +582,6 @@ def GenerateFindParallelPlaneEquationTask(topic):
   f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
-    "topic":topic,
     "task": task,
     "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
     "answer": str(answer),
@@ -618,7 +590,7 @@ def GenerateFindParallelPlaneEquationTask(topic):
   return dic
 
 
-def GenerateFindOrtPlaneEquationTask(topic):
+def GenerateFindOrtPlaneEquationTask():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   B1,B2,B3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -635,7 +607,6 @@ def GenerateFindOrtPlaneEquationTask(topic):
   f"<p>Уравнение: {convert_plane_equation(answer.args)} = 0</p>"
 
   dic = {
-  "topic":topic,
   "task": task,
   "data": {}, #Нужно ли тут что - то на фронт возвращать? все данные уже в задаче.
   "answer": str(answer),
@@ -643,7 +614,7 @@ def GenerateFindOrtPlaneEquationTask(topic):
   return dic
 
 
-def GeneratePointProjectionOnLineTask(topic):
+def GeneratePointProjectionOnLineTask():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   M1,M2,M3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -657,7 +628,6 @@ def GeneratePointProjectionOnLineTask(topic):
   moodle_task=f"<p>{task}</p>" + \
   f"<p>Координаты: {rational_plane(answer)}</p>"
   dic = {
-  "topic":topic,  
   "task": task,
   "data": {}, 
   "answer": str(answer),
@@ -665,7 +635,7 @@ def GeneratePointProjectionOnLineTask(topic):
   return dic
 
 
-def GeneratePointProjectionOnPlainTask(topic):
+def GeneratePointProjectionOnPlainTask():
   A1,A2,A3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   N1,N2,N3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
   P1,P2,P3 = randint(-9, 9),randint(-9, 9),randint(-9, 9)
@@ -679,8 +649,7 @@ def GeneratePointProjectionOnPlainTask(topic):
   
   moodle_task=f"<p>{task}</p>" + \
   f"<p>Координаты: {rational_plane(answer)}</p>"
-  dic = {
-  "topic":topic,  
+  dic = { 
   "task": task,
   "data": {}, 
   "answer": str(answer),
