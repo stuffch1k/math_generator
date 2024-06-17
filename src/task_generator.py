@@ -1,9 +1,13 @@
+import io
+import spb
 import numpy as np
 import sympy as sp
 import scipy as sc
 from random import *
 from math import *
 from moodle_export.converter import *
+from sympy import S, real_roots
+from sympy.abc import x, y
 import json
 
 def GenerateMatrixSizeTask():
@@ -654,6 +658,178 @@ def GeneratePointProjectionOnPlainTask():
   "data": {}, 
   "answer": str(answer),
   "moodle_task":moodle_task}
+  return dic
+
+
+def GenerateFindCircleAndLineCrossPointsTask():
+  result = []
+  while len(result) == 0:
+    a, c = randint(*choice([(2,4),(-4,-2)])), randint(*choice([(2,4),(-4,-2)]))
+    r = randint(2,4)
+    A, C = 1, 1
+    B = -2*a
+    D = -2*c
+    Q = a**2 + c**2 - r**2
+    x, y = sp.symbols("x y", real=True)
+
+    circle = sp.Eq(A*x**2 + C*y**2 + B*x + D*y + Q, 0)
+
+    lx0, lx1, ly1 = randint(-5, 5), randint(-5, 5), 1
+    
+    line = sp.Eq(lx1*x - ly1*y - lx0, 0)
+
+    result = sp.solve([circle, line], [x, y], dict=True)
+
+  #print('координаты точки пересчения А: ', result[0][x], result[0][y])
+  #print('координаты точки пересчения B: ', result[1][x], result[1][y])
+
+  ranges = (x, -10, 10), (y, -10, 10)
+  
+  plot_base = spb.graphics(
+    spb.implicit_2d(circle, *ranges),
+    spb.implicit_2d(line, *ranges),
+    rendering_kw={"marker": "ro", "markerfacecolor": None},
+    backend=spb.MB,
+    axis_center=(0.0, 0.0),
+    #legend=False,
+    show=False,
+    aspect = "equal",
+  )
+  plot_anotation = spb.plot_list(
+    ([result[0][x]], [result[0][y]], "A"),
+    (result[1][x], result[1][y], "B"),
+    rendering_kw={"marker": "o", "markerfacecolor": None},
+    scatter=True, show=False
+  )
+  
+  plot = plot_base + plot_anotation
+
+  buffer = io.StringIO()
+  plot.save(buffer, format = "svg")
+
+
+  task = f""
+  answer = result
+
+  dic = {
+  "task": task,
+  "data": {'img': buffer.getvalue()}, 
+  "answer": answer}
+  return dic
+
+
+def GenerateFindEllipseAndLineCrossPointsTask():
+  result = []
+  while len(result) != 2:
+    a, c = randint(*choice([(2,4),(-4,-2)])), randint(*choice([(2,4),(-4,-2)]))
+    if a == c:
+      c+=1
+
+    b, d = randint(*choice([(2,5),(-5,-2)])), randint(*choice([(2,5),(-5,-2)]))
+    if b == d:
+      d+=1
+        
+    A = d**2
+    B = -2 * a * (d**2)
+    C = b**2
+    D = -2 * c * (b**2)
+    Q = d**2 * a**2 + c**2 * b**2 - b**2 * d**2
+    
+    x, y = sp.symbols("x y", real=True)
+
+    circle = sp.Eq(A*x**2 + C*y**2 + B*x + D*y + Q, 0)
+
+    lx0, lx1, ly1 = randint(-5, 5), randint(-5, 5), 1
+    
+    line = sp.Eq(lx1*x - ly1*y - lx0, 0)
+
+    result = sp.solve([circle, line], [x, y], dict=True)
+
+  #print('координаты точки пересчения А: ', result[0][x], result[0][y])
+  #print('координаты точки пересчения B: ', result[1][x], result[1][y])
+
+  ranges = (x, -10, 10), (y, -10, 10)
+  
+  plot_base = spb.graphics(
+    spb.implicit_2d(circle, *ranges),
+    spb.implicit_2d(line, *ranges),
+    rendering_kw={"marker": "ro", "markerfacecolor": None},
+    backend=spb.MB,
+    axis_center=(0.0, 0.0),
+    #legend=False,
+    show=False,
+    aspect = "equal",
+  )
+  plot_anotation = spb.plot_list(
+    ([result[0][x]], [result[0][y]], "A"),
+    (result[1][x], result[1][y], "B"),
+    rendering_kw={"marker": "o", "markerfacecolor": None},
+    scatter=True, show=False
+  )
+  
+  plot = plot_base + plot_anotation
+
+  buffer = io.StringIO()
+  plot.save(buffer, format = "svg")
+
+  task = f""
+  answer = result
+
+  dic = {
+  "task": task,
+  "data": {'img': buffer.getvalue()}, 
+  "answer": answer}
+  return dic
+
+
+def GenerateFindHiperbolaAndLineCrossPointsTask():
+  result = []
+  while len(result) != 2:
+    a, b = randint(*choice([(2,4),(-4,-2)])), randint(*choice([(2,4),(-4,-2)]))
+    x0, y0 = randint(*choice([(2,5),(-5,-2)])), randint(*choice([(2,5),(-5,-2)]))
+    x, y = sp.symbols("x y", real=True)
+
+    hiperbola = sp.Eq(b**2*x**2 - 2*x*x0*b**2 + x0**2*b**2 - a**2*y**2 - 2*y*y0*a**2 + a**2*y0**2, a**2*b**2)
+    lx0, lx1, ly1 = randint(-5, 5), randint(-5, 5), 1
+    
+    line = sp.Eq(lx1*x - ly1*y - lx0, 0)
+
+    result = sp.solve([hiperbola, line], [x, y], dict=True)
+
+  #print('координаты точки пересчения А: ', result[0][x], result[0][y])
+  #print('координаты точки пересчения B: ', result[1][x], result[1][y])
+
+  ranges = (x, -20, 20), (y, -20, 20)
+  
+  plot_base = spb.graphics(
+    spb.implicit_2d(hiperbola, *ranges),
+    spb.implicit_2d(line, *ranges),
+    rendering_kw={"marker": "ro", "markerfacecolor": None},
+    backend=spb.MB,
+    axis_center=(0.0, 0.0),
+    #legend=False,
+    show=False,
+    aspect = "equal",
+  )
+  plot_anotation = spb.plot_list(
+    ([result[0][x]], [result[0][y]], "A"),
+    (result[1][x], result[1][y], "B"),
+    rendering_kw={"marker": "o", "markerfacecolor": None},
+    scatter=True, show=False
+  )
+  
+  plot = plot_base + plot_anotation
+
+  buffer = io.StringIO()
+  plot.save(buffer, format = "svg")
+
+  task = f""
+  answer = result
+
+  dic = {
+  "task": task,
+  "data": {'img': buffer.getvalue()}, 
+  "answer": answer}
   return dic
 
 
